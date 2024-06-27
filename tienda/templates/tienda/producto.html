@@ -1,0 +1,40 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid my-4">
+        <div class="row">
+            <img class="col prod-img skeleton" src="{% static 'img/logo_1.png' %}" id="producto-img" >
+            <div class="col">
+                <h1 id="prod-titulo">...</h1>
+                <h2 >$65.990</h2>
+                <hr>
+                <h5 class="my-4">Disponibilidad: 4</h5>
+                <hr>
+                <h5>Descripcion</h5>
+                <p class="prod-desc"> 
+                  Game Buy es la quinta empresa nacional más grande de videojuegos de la comuna y estamos muy interesados en mostrarles
+                  todos lo que tenemos para ofrecerles y necesito rapidamente rellenar este espacio para probar un pequeño e insignificante
+                  tema, ojala funcione lo mejor posible Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas placerat augue vitae 
+                  tortor rhoncus posuere. 
+                </p>
+                <hr>
+                <div class="prod-flexx">
+
+                    <p id="fecha-prod">Lanzamiento: </p>
+                    <p id="genre-prod">Géneros: </p>
+                    <p id="rating-prod">Valoración: </p>
+                </div>
+                <hr>
+                <div class="prod-carrito">
+                    <a id="prod_anch" href="pago.html"></a>
+                    <button class="btn-cant" id="minus">-</button>
+                    <input disabled id="prod-cant" value="1">
+                    <button class="btn-cant" id="plus">+</button>
+                    <button id="prod-add" type="button" class="btn ">Añadir Al Carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="{% static 'JS/prod.js' %}"></script>
+
+{% endblock %}

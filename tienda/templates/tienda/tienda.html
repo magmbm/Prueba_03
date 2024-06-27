@@ -1,0 +1,136 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block content %}
+
+
+   <div class="container ">
+        <div class="row justify-content-center">
+            <img src="{% static 'img/logo_1.png' %}" height="200" width="200">
+        </div>
+        <h2 class="row justify-content-center">Game Buy</h2>
+    </div>
+    <div class="container-fluid  my-4 tienda-search-bar">
+        <div class="row justify-content-center">
+            <div class="input-group" id="search-input">
+                <div class="input-group-prepend">
+                <div class="input-group-text">lupa</div>
+                </div>
+                <input type="text" class="form-control" id="tienda-buscador" placeholder="dark souls">
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center" id="store-display">
+            <div class="carta"> 
+                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
+                <div class="card-cont"> 
+                    <div class="upper-cont ske-cont">
+                        <p class=" skeleton" id="ske-titulo"></p>
+                        <p class="skeleton"></p>
+                        <p class="skeleton"></p>
+                    </div>
+                    <div class="lower-cont">
+                        <p class="ske-btn skeleton" ></p> 
+                    </div>
+                </div>
+            </div>
+            <div class="carta"> 
+                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
+                <div class="card-cont"> 
+                    <div class="upper-cont ske-cont">
+                        <p class=" skeleton" id="ske-titulo"></p>
+                        <p class="skeleton"></p>
+                        <p class="skeleton"></p>
+                    </div>
+                    <div class="lower-cont">
+                        <p class="ske-btn skeleton" ></p> 
+                    </div>
+                </div>
+            </div>
+            <div class="carta"> 
+                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
+                <div class="card-cont"> 
+                    <div class="upper-cont ske-cont">
+                        <p class=" skeleton" id="ske-titulo"></p>
+                        <p class="skeleton"></p>
+                        <p class="skeleton"></p>
+                    </div>
+                    <div class="lower-cont">
+                        <p class="ske-btn skeleton" ></p> 
+                    </div>
+                </div>
+            </div>
+            <div class="carta"> 
+                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
+                <div class="card-cont"> 
+                    <div class="upper-cont ske-cont">
+                        <p class=" skeleton" id="ske-titulo"></p>
+                        <p class="skeleton"></p>
+                        <p class="skeleton"></p>
+                    </div>
+                    <div class="lower-cont">
+                        <p class="ske-btn skeleton" ></p> 
+                    </div>
+                </div>
+            </div>
+            <div class="carta"> 
+                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
+                <div class="card-cont"> 
+                    <div class="upper-cont ske-cont">
+                        <p class=" skeleton" id="ske-titulo"></p>
+                        <p class="skeleton"></p>
+                        <p class="skeleton"></p>
+                    </div>
+                    <div class="lower-cont">
+                        <p class="ske-btn skeleton" ></p> 
+                    </div>
+                </div>
+            </div>
+            <div class="carta"> 
+                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
+                <div class="card-cont"> 
+                    <div class="upper-cont ske-cont">
+                        <p class=" skeleton" id="ske-titulo"></p>
+                        <p class="skeleton"></p>
+                        <p class="skeleton"></p>
+                    </div>
+                    <div class="lower-cont">
+                        <p class="ske-btn skeleton" ></p> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="carta"> 
+                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
+                <div class="card-cont"> 
+                    <div class="upper-cont ske-cont">
+                        <p class=" skeleton" id="ske-titulo"></p>
+                        <p class="skeleton"></p>
+                        <p class="skeleton"></p>
+                    </div>
+                    <div class="lower-cont">
+                        <p class="ske-btn skeleton" ></p> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="carta"> 
+                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
+                <div class="card-cont"> 
+                    <div class="upper-cont ske-cont">
+                        <p class=" skeleton" id="ske-titulo"></p>
+                        <p class="skeleton"></p>
+                        <p class="skeleton"></p>
+                    </div>
+                    <div class="lower-cont">
+                        <p class="ske-btn skeleton" ></p> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="anch" href="{% url 'producto' %}"></a>
+    </div>
+    
+    <script type="module" src="{% static 'JS/tienda.js' %}"></script>
+
+{% endblock %}

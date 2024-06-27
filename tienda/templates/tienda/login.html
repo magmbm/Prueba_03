@@ -1,0 +1,23 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="contenedor-login">
+    <form method="POST" class="form-login">
+        {% csrf_token %}
+        <div class="login-header">
+            <h2>GameBuy</h2>
+            <img src="{% static 'img/logo_1.png' %}" alt="">
+        </div>
+        <div class="form-group">
+        <label for="nombre_usuario">Nombre de usuario</label>
+        <input type="text" class="form-control" id="nombre_usuario" name="nombre_user">
+        </div>
+        <div class="form-group">
+        <label for="contra_usuario">Contraseña</label>
+        <input type="password" class="form-control" id="contra_usuario" name="contra_user">
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+    </form>
+</div>
+{% endblock %}

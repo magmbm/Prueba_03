@@ -53,7 +53,10 @@ def login_t(request):
         context={}
         return render(request, "tienda/login.html", context)
     
-
 def pago(request):
     context={}
-    return render(request, "tienda/pago.html", context) 
+    return render(request, "tienda/pago.html", context)
+
+def registro(request):
+    context={}
+    return render(request, "tienda/registro.html", context) 

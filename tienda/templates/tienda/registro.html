@@ -2,9 +2,6 @@
 {% load static %}
 {% block content %}
 
-    <!-- Template de login.html
-        Reemplazar secciones por las que estan abajo -->
-
 <div class="contenedor-login">
     <form method="POST" class="form-login">
         {% csrf_token %}
@@ -12,38 +9,29 @@
             <h2>GameBuy</h2>
             <img src="{% static 'img/logo_1.png' %}" alt="">
         </div>
+
         <div class="form-group">
-        <label for="nombre_usuario">Nombre de usuario</label>
-        <input type="text" class="form-control" id="nombre_usuario" name="nombre_user">
+            <label for="nombre_usuario">Nombre de usuario</label>
+            <input type="username" class="form-control" id="nombre_usuario" name="nombre_user" placeholder="Ejemplo: PanConQueso">
         </div>
+
         <div class="form-group">
-        <label for="contra_usuario">Contraseña</label>
-        <input type="password" class="form-control" id="contra_usuario" name="contra_user">
+            <label for="contra_usuario">Nombre</label>
+            <input type="first_name" class="form-control" id="nom_real1" name="nombre_real1" placeholder="Primer Nombre">
         </div>
-        <button type="submit" class="btn btn-primary">Ingresar</button>
+
+        <div class="form-group">
+            <label for="contra_usuario">Apellido</label>
+            <input type="last_name" class="form-control" id="nom_real2" name="nombre_real2" placeholder="Segundo Nombre">
+        </div>
+
+        <div class="form-group">
+            <label for="contra_usuario">Contraseña</label>
+            <input type="password" class="form-control" id="contra_usuario" name="contra_user" placeholder="Nunca comparta su contraseña">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrarse</button>
         <hr>
-        <p>¿No tienes una cuenta?</p>
-        <p style="font-size: 1.4em;"><a href="{% url 'registro' %}"><b>Registrate</b></a></p>
-    </form>
-</div>
-
-
-<div class="container">
-    <form>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-        </div>
-        <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 

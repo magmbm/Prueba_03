@@ -4,7 +4,7 @@
     <div class="container-fluid my-4">
         <div class="row">
             <img class="col prod-img skeleton" src="{% static 'img/logo_1.png' %}" id="producto-img" >
-            <div class="col">
+            <div class="col ">
                 <h1 id="prod-titulo">...</h1>
                 <h2 >$65.990</h2>
                 <hr>
@@ -21,16 +21,19 @@
                 <div class="prod-flexx">
 
                     <p id="fecha-prod">Lanzamiento: </p>
-                    <p id="genre-prod">Géneros: </p>
+                    <p id="genre-prod" name="genero">Géneros: </p>
                     <p id="rating-prod">Valoración: </p>
                 </div>
                 <hr>
                 <div class="prod-carrito">
-                    <a id="prod_anch" href="pago.html"></a>
-                    <button class="btn-cant" id="minus">-</button>
-                    <input disabled id="prod-cant" value="1">
-                    <button class="btn-cant" id="plus">+</button>
-                    <button id="prod-add" type="button" class="btn ">Añadir Al Carrito</button>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <a id="prod_anch" href="pago.html"></a>
+                        <button class="btn-cant" id="minus">-</button>
+                        <input disabled id="prod-cant" value="1">
+                        <button class="btn-cant" id="plus">+</button>
+                        <button id="prod-add" type="submit" value= "" class="btn ">Añadir Al Carrito</button>
+                    </form>
                 </div>
             </div>
         </div>

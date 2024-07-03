@@ -1,0 +1,3 @@
+Dos Crud, dos mantenedores para el administrador.
+
+Puedo agotar en el crud de videojuegos, no tengo que eliminarlo.

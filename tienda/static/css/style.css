@@ -34,6 +34,21 @@ html, body{
     box-sizing: border-box;
 }
 
+/*Carrito*/
+.linea-carro{
+  display: flex;
+  background-color: #CECECE;
+  justify-content: end;
+  
+}
+
+.linea-carro img{
+  width: 2.5rem;
+  height: 2.5rem;
+  left: 100%;
+  margin: 0.4rem
+}
+
 /*
 LOGIN
 */
@@ -329,6 +344,12 @@ Perfil*/
   display: flex;
 }
 
+.add-btn{
+  display: flex;
+  flex-direction: column;
+
+}
+
 #prod-add{
   background-color: #FF943B;
   border-color: #2E2E2E;
@@ -361,48 +382,15 @@ Perfil*/
   height: 50px;
 }
 
-@media screen and(min-width: 426px){
+@media only screen and(max-width: 768px){
+  .prod-carrito{
+    display: block;
+  }
+
   #prod-add{
-    width: 400px;
-    margin-left: 10px;
-    height: 50px;
-  }
-
-  #minus{
-    border-radius: 6px 0px 0px 6px;
-    width: 50px;
-
-  }
-
-  #plus{
-    border-radius: 0px 6px 6px 0px;
-    width: 50px;
-  }
-
-  #prod-cant{
-    border-left: 0px;
-    border-right: 0px;
-    height: 2.5rem;
-    width: 200px;
-    height: 50px;
+    background-color: red;
   }
 }
-
-@media screen and (min-width: 375px){
-  /*.prod-carrito{
-    flex-direction: column;
-  }*/
-
-  #minus{
-
-  }
-
-  #plus{
-
-  }
-
-}
-
 
 .prod-desc{
   padding-right: 10px;
@@ -415,7 +403,7 @@ Perfil*/
 .prod-img{
   margin: 0rem 1rem 0rem 1rem;
   height: 35rem;
-  width: 8rem;
+  width: 6rem;
   padding: 8rem;
 }
 
@@ -436,8 +424,9 @@ Perfil*/
 /*Pago*/
 
 #pago-logo{
-  width: 20%;
-  height: 20%; 
+  width: 10rem;
+
+  height: 10rem; 
 }
 
 .sub-precio ,.total-precio{
@@ -445,70 +434,45 @@ Perfil*/
   justify-content: space-between;
 }
 
-#pedido-img{
-  width: 6rem;
-  height: 6rem;
-  margin: 2px;
-  margin-left: 1rem;
-}
 
 .pago-name{
   background-color: #FF943B;
-  width: 20%;
+  width: 200px;
   text-align: center;
   margin: 2px;
-  font-size:xx-large;
+  font-size: x-large;
   font-weight: bold;
   border-radius: 26px;
 
 }
 
-@media only screen and (max-width: 1024px) {
-  .pago-name{
-    width: 40%;
-  }
-
-  #pago-logo{
-    width: 30%;
-    height: 30%;
-  }
+.pago-detalle{
+  padding: 30px 15px 30px 15px;
+  border: solid 1px lightgray;
+  border-radius: 8px;
+  width: 700px;
+  margin: 20px
 }
 
-
-@media only screen and (max-width: 425px) {
-  .pago-name{
-    width: 55%;
-  }
-
-  #pago-logo{
-    width: 35%;
-    height: 35%;
-  }
-}
-
-@media only screen and (max-width: 375px) {
-  .pago-name{
-    width: 55%;
-    font-size: x-large;
-  }
-
-  #pago-logo{
-    width: 35%;
-    height: 35%;
-  }
-
+.pago-pedido{
+  width: 600px;
+  margin: 20px;
+  height: 340px;
+  padding: 30px 15px 30px 15px;
+  border: solid 1px lightgray;
+  border-radius: 8px;
 }
 
 
 @media only screen and (max-width: 320px) {
   .pago-name{
-    width: 55%;
+    width: 180px;
     font-size: x-large;
   }
 
   #pago-logo{
-    width: 38%;
-    height: 38%;
+    width: 150px;
+
   }
 }
 
@@ -518,6 +482,160 @@ Perfil*/
 }
 
 
+.contenedor-pago{
+  display: flex;
+  justify-content: space-between;
+}
+
+.lower-cont-pedido{
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#pedido-img{
+  width: 6rem;
+  height: 6rem;
+  margin: 2px;
+  margin-left: 1rem;
+}
+
+
+.pedido-nombre{
+  margin-left: 1rem;
+  margin-right: 2rem;
+}
+
+@media only screen and (max-width: 1138px){
+  .contenedor-pago{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .pago-detalle{
+    width: 900px;
+  }
+
+  .pago-pedido{
+    width: 900px;
+  }
+
+}
+
+@media only screen and (max-width: 940px){
+
+  .pago-detalle{
+    width: 700px;
+  }
+
+  .pago-pedido{
+    width: 700px;
+  }
+}
+
+@media only screen and (max-width: 750px){
+
+  .pago-detalle{
+    width: 550px;
+  }
+
+  .pago-pedido{
+    width: 550px;
+  }
+}
+
+
+
+
+@media only screen and (max-width: 750px){
+
+  .pago-detalle{
+    width: 550px;
+  }
+
+  .pago-pedido{
+    width: 550px;
+  }
+}
+
+
+@media only screen and (max-width: 590px){
+
+  .pago-detalle{
+    width: 450px;
+  }
+
+  .pago-pedido{
+    width: 450px;
+  }
+
+  #pedido-img{
+    width: 40px;
+    height: 40px;
+    margin: 15px;
+  }
+
+  .pedido-nombre{
+    margin: 4px;
+    font-size: small;
+
+  }
+
+  .lower-cont-pedido p{
+    font-size: small;
+  }
+}
+
+@media only screen and (max-width: 490px){
+
+  .pago-detalle{
+    width: 380px;
+  }
+
+  .pago-pedido{
+    width: 380px;
+  }
+
+  .lower-cont-pedido{
+    margin: 10px;
+  }
+
+}
+
+
+@media only screen and (max-width: 430px){
+
+  .pago-detalle{
+    width: 330px;
+  }
+
+  .pago-pedido{
+    width: 330px;
+  }
+}
+
+
+@media only screen and (max-width: 360px){
+
+  .pago-detalle{
+    width: 280px;
+  }
+
+  .pago-pedido{
+    width: 280px;
+  }
+
+  #pedido-img{
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
+  .lower-cont-pedido{
+    margin: 5px;
+  }
+}
 
 .pago-header{
   display: flex;
@@ -535,11 +653,6 @@ Perfil*/
 
 }
 
-.pago-detalle, .pago-pedido{
-  padding: 30px 15px 30px 15px;
-  border: solid 1px lightgray;
-  border-radius: 8px;
-}
 
 .boton-volver{
   margin-top: 1rem
@@ -550,9 +663,6 @@ Perfil*/
   display: inline;
 }
 
-.pago-pedido{
-  height: 22rem;
-}
 
 @media only screen and (max-width: 600px) {
 .pago-pedido{
@@ -588,17 +698,7 @@ Perfil*/
   align-items: center;
 }
 
-.lower-cont-pedido{
-  display: flex;
-  align-items: center;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
 
-.pedido-nombre{
-  margin-left: 1rem;
-  margin-right: 2rem;
-}
 
 .container-pago{
   margin-bottom: 0px;

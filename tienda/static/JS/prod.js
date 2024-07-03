@@ -9,6 +9,7 @@ $(document).ready(function(){
 
     console.log(data_idx);    
     $.ajax(settings).done(function(response) {
+        console.log(response);
         data= response.results[data_idx];   
         console.log("O");
         console.log("L" + data);
@@ -21,6 +22,7 @@ $(document).ready(function(){
         $("#fecha-prod").append(data.released);
         $("#genre-prod").append(getGenero(response.results[data_idx]));
         $("#rating-prod").append(data.rating);
+        document.getElementById("prod-add").value= data_idx; 
     })
     $("#plus").on("click", function(){
         cant= parseInt(document.getElementById("prod-cant").value);

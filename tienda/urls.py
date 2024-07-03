@@ -13,4 +13,6 @@ urlpatterns=[
     path("login", views.login_t, name="login_t"),
     path("logout_t", views.logout_t, name="logout_t"),
     path("pago", views.pago, name="pago"),
+    path("cart", views.cart, name="cart"),
+    path("registro", views.registro, name="registro"),
 ]

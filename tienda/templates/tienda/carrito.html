@@ -40,9 +40,9 @@
                         </div>
                         <form method="POST">
                             {% csrf_token %}
+                            <button type="submit" name="minus-btn" class="cant-btn-carro" value={{reg.f_game.id}} >-</button>
                             <input name="reg_cant_carrito" class="input-cant-carro" value= {{reg.cant}}>
-                                <button type="submit" name="minus-btn" class="cant-btn-carro" value={{reg.f_game.id}} >-</button>
-                                <button type="submit" name="plus-btn" class="cant-btn-carro" value={{reg.f_game.id}} >+</button>
+                            <button type="submit" name="plus-btn" class="cant-btn-carro" value={{reg.f_game.id}} >+</button>
                         </form>
                         <div class="col"> ${{reg.precio_total}} <span class="close"><button name="x-button" >&#10005;</button></span></div>
                     </div>
@@ -53,7 +53,7 @@
             <div class="back-to-shop"><a href="{% url 'tienda' %}">&leftarrow; <span class="text-muted">Seguir comprando</span></a></div>
         </div>
         <div class="col-md-4 summary">
-            <div><h5><b>Resumen</b></h5></div>
+            <div><h5><b>Resumen{{flag}}</b></h5></div>
             <hr>
             <div class="row">
                 <div class="col" style="padding-left:0;">ITEMS {{pedido.nro_productos}}</div>

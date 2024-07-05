@@ -47,7 +47,7 @@ def cart(request):
         if 'plus-btn' in request.POST:
             user= request.user
             cli= user.cliente
-            game_id= request.POST.get("minus-btn")
+            game_id= request.POST.get("plus-btn")
             game= Game.objects.get(id= game_id)
             pedido= Pedido.objects.get(f_cliente= cli, current= True)
             record= Record.objects.get(pedido_FK= pedido, f_game= game)
@@ -73,6 +73,7 @@ def cart(request):
                 "records": records,
                 "pedido": pedido,
                 "current": "carro",
+                "flag": "flag"
             }
         except:
             context = {
@@ -207,16 +208,29 @@ def novedades(request):
 
 
 def prueba(request):
-    
     if request.method== "POST":
-        game_cant= request.POST.get("juan") 
+        game_id= request.POST.get("plus-btn") 
         context = {
-            "uno": game_cant,
+            "uno": game_id
         }
         return render(request, "tienda/test.html", context)
     else:
-        context={}
-        return render(request, "tienda/producto.html", context)
+        user = User.objects.get(username=request.user)
+        cli = user.cliente
+        try:
+            pedido = Pedido.objects.get(f_cliente=cli, current=True)
+            records = Record.objects.filter(pedido_FK= pedido)
+            context = {
+                "records": records,
+                "pedido": pedido,
+                "current": "carro",
+            }
+        except:
+            context = {
+                "message": "Su carrito esta vacio",
+                "current": "carro"
+            }
+        return render(request, "tienda/carrito.html", context)
 
 
 def producto(request):
@@ -269,8 +283,7 @@ def producto(request):
             
             return redirect('cart')
         else:
-            context = {"current": "login",}
-            return render(request, "tienda/login.html", context)
+            return     redirect('login_t')
     else:
 
         context = {"current": "tienda"}

@@ -1,0 +1,35 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="my-4">Compras en la tienda</h1>
+<div class="table-contenedor">
+<table class="table table-hover tabla-crud">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Nro Productos</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Monto</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for ped in pedidos %}
+            <tr>
+                <th scope="row">{{ped.id}}</th>
+                <td>{{ped.f_cliente.user.username}}</td>
+                <td>{{ped.nro_productos}}</td>
+                <td>{{ped.fecha_compra}}</td>
+                <td>${{ped.total_precio}}</td>
+                <form method="POST">
+                    {% csrf_token %}
+                    <td><button type="submit" value="{{ped.id}}" name="id_boton" class="btn btn-crud">Revisar</button></td>
+                </form>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

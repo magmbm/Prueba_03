@@ -33,11 +33,29 @@ class Pedido(models.Model):
     envio= models.BooleanField(default= True)
     fecha_compra= models.DateField(null= True)
     current= models.BooleanField(default= True)
+    total_precio= models.IntegerField(default= 0)
 def __init__(self):
     return "Numero de pedido: " + str(self.id)
+def get_total_productos(self):
+    return self.nro_productos
+def get_total_precio(self):
+    return self.total_precio
+
 
 class Record(models.Model):
     f_game= models.ForeignKey(Game, db_column='game_FK', on_delete= models.CASCADE)
     pedido_FK= models.ForeignKey(Pedido, on_delete= models.CASCADE)
     cant= models.IntegerField()
-    precio= models.IntegerField()
+    precio_uni= models.IntegerField(default=0)
+    precio_total= models.IntegerField(default=0)
+def __init__(self):
+    return "This is a record"
+def get_precio(self):
+    return self.precio
+
+class Contact(models.Model):
+    f_cliente= models.ForeignKey(Cliente, db_column= 'cliente_FK', on_delete= models.CASCADE, null= True)
+    asunto= models.CharField(max_length= 50)
+    mensaje= models.CharField(max_length= 500)
+    fecha_emision= models.DateField(auto_now_add= True)
+    email_emisor= models.CharField(max_length= 80)

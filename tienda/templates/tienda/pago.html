@@ -21,26 +21,27 @@
     </div>
     <div class="container-fluid">
         <div class="contenedor-pago">
-            <form class="my-3 pago-detalle">
+            <form method="POST" class="my-3 pago-detalle">
+                {% csrf_token %}
                 <div class="form-group">
                 <label for="nombreInput">Nombre(s)</label>
-                <input  class="form-control" id="nombreInput" aria-describedby="emailHelp" placeholder="Juan Agustín">
+                <input  class="form-control" id="nombreInput" aria-describedby="emailHelp" value="{{cliente.nombre}}">
                 <small id="nombreSmall"></small>
                 </div>
                 <label>Apellidos</label>
                 <div class="form-row form-apellido">
                     <div class="col">
-                        <input type="text" class="form-control" id="paternoInput" placeholder="Balmaceda">
+                        <input type="text" class="form-control" id="paternoInput" value="{{cliente.primer_apellido}}">
                         <small id="paternoSmall" ></small>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" id="maternoInput" placeholder="Torres">
+                        <input type="text" class="form-control" id="maternoInput" value="{{cliente.segundo_apellido}}">
                         <small id="maternoSmall" ></small>
                     </div>
                 </div>
                 <div class="form-group">
-                <label for="emailInput">Email address</label>
-                <input  class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="juan@gmail.com">
+                <label for="emailInput">Correo Electrónico</label>
+                <input  class="form-control" id="emailInput" aria-describedby="emailHelp" value="{{user.email}}">
                 <small id="emailSmall"></small>
                 </div>
                 <div class="form-group form-envio">
@@ -54,30 +55,35 @@
                     <label class="custom-control-label" id="check-retiro" for="customRadio2">Retiro en tienda - Los piñones 1239</label>
                 </div>
                 </div>
-                <button id="form-boton" type="button" class="btn btn-primary" >Confirmar Pago</button>
+                <button id="form-boton" type="submit" class="btn btn-primary" >Confirmar Pago</button>
             </form>
             <div class=" my-3 pago-pedido">
                 <h4>Revisión del pedido</h4>
                 <hr>
-                <div class="pedido-cont row">
-                    <div class="upper-cont-pedido">
-                        <img id="pedido-img" class="img-fluid">
-                        <p class="pedido-nombre"></p>
+                {% for rec in records %}
+                    <div class="pedido-cont row">
+                        <div class="upper-cont-pedido">
+                                <img id="pedido-img" src={{rec.f_game.imagen}}>
+                                <p class="pedido-nombre">{{rec.f_game.nombre}}</p>
+                        </div>
+                        <div class="lower-cont-pedido">
+                            <p class="pedido-cant">{{rec.cant}}&nbsp;</p>
+                            <p>X&nbsp;</p>
+                            <p id="pedido-precio">${{rec.precio_uni}}</p>
+                        </div>
                     </div>
-                    <div class="lower-cont-pedido">
-                        <p class="pedido-cant"></p>
-                        <p>&nbsp;X</p>
-                        <p id="pedido-precio">&nbsp;$50.990</p>
+                {% endfor %}
+                    <hr>
+                    <div class="sub-precio">
+                        <p>Subtotal</p>
+                        <p> ${{pedido.total_precio}}</p>
                     </div>
-                </div>
-                <hr>
-                <div class="sub-precio">
-                    <p>Subtotal</p>
-                </div>
-                <hr>
-                <div class="total-precio">
-                    <p>Total</p>
-                </div>
+                    <hr>
+                    <div class="total-precio">
+                        <p>Total</p>
+                        <p>${{pedido.total_precio}}</p>
+                    </div>
+
             </div>
         </div>
     </div>

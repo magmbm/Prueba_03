@@ -1,0 +1,30 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="my-4">Solicitudes de la tienda</h1>
+<div class="table-contenedor">
+<table class="table table-hover tabla-crud">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Asunto</th>
+        <th scope="col">E-mail</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for con in contact %}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{con.asunto}}</td>
+                <td>{{con.email_emisor}}</td>
+                <td>{{con.fecha_emision}}</td>
+                <td><a href="{% url 'contact_details' %}"><button type="button" class="btn btn-crud">Revisar</button></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

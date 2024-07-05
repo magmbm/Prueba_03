@@ -29,10 +29,10 @@
                     <form method="POST">
                         {% csrf_token %}
                         <a id="prod_anch" href="pago.html"></a>
-                        <button class="btn-cant" id="minus">-</button>
-                        <input disabled id="prod-cant" value="1">
-                        <button class="btn-cant" id="plus">+</button>
-                        <button id="prod-add" type="submit" value= "" class="btn ">Añadir Al Carrito</button>
+                        <button class="btn-cant" id="minus" type="button">-</button>
+                        <input  id="prod-cant" type="number" name="prod-cantidad" value="1">
+                        <button class="btn-cant" id="plus" type="button">+</button>
+                        <button id="prod-add" type="submit" value= "3" name="prod-add-btn" class="btn ">Añadir Al Carrito</button>
                     </form>
                 </div>
             </div>

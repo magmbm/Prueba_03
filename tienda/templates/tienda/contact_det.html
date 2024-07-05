@@ -1,0 +1,43 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="table-contenedor">
+    <div class="detalles-form">
+
+    
+    <h1 class="">Detalle Pedido</h1>
+    <div class="login-header">
+        <h2>GameBuy</h2>
+        <img src="{% static 'img/logo_1.png' %}" alt="">
+    </div>
+    <h3 class="my-3">Id Pedido: {{pedido.id}}</h3>
+    <div class="form-group">
+        <h3>Cliente</h3>
+        <label for="cli_username">Nombre de Usuario</label>
+        <input type="text" class="form-control" id="cli_username" name="cli_username" value="{{user.username}}">
+        <label for="cli_nombre">Nombre</label>
+        <input type="text" class="form-control" id="cli_nombre" name="cli_nombre" value="{{cliente.nombre}}">
+        <label for="cli_apellido">Apellido</label>
+        <input type="text" class="form-control" id="cli_apellido" name="cli_apellido"value="{{cliente.primer_apellido}}">
+
+    </div>
+    <hr>
+    <div class="form-group">
+        <label for="cant_p">Cantidad de Productos</label>
+        <input type="text" class="form-control" id="cant_p" name="cant_p" value="{{pedido.nro_productos}}">
+    </div>
+
+    <div class="form-group">
+        <label for="monto_total">Monto Total</label>
+        <input class="form-control" id="monto_total" name="monto_total" value="${{pedido.total_precio}}">
+    </div>
+    
+    <div class="form-group">
+        <label for="fecha">Fecha Compra</label>
+        <input type="text" class="form-control" value="{{pedido.fecha_compra}}" name="fecha">
+    </div>
+    </div>
+</div>
+
+{% endblock %}

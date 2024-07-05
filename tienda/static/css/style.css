@@ -34,6 +34,54 @@ html, body{
     box-sizing: border-box;
 }
 
+/*Contactanos*/
+.form-contacto{
+  width: 600px;
+  margin: 30px 10px 20px 10px;
+  border-radius: 8px;
+  padding: 10px 25px 25px 25px;
+  background-color: #CECECE;
+}
+
+/*CRUDS
+
+*/
+
+.btn-crud{
+  background-color: #FF943B;
+}
+
+/*Contact*/
+.table-contenedor{
+  display: flex;
+  justify-content: center;
+}
+
+.tabla-crud{
+  margin-top: 20px;
+  width: 1200px;
+}
+
+.detalles-form{
+  width: 700px;
+  
+  background-color: #CECECE;
+  margin: 10px;
+  margin-top: 40px;
+  padding: 20px 40px 20px 40px;
+  border-radius: 8px;
+}
+
+.detalles-form h1{
+}
+
+
+
+
+
+
+
+
 /*Carrito*/
 .linea-carro{
   display: flex;
@@ -457,7 +505,7 @@ Perfil*/
 .pago-pedido{
   width: 600px;
   margin: 20px;
-  height: 340px;
+  height: 470px;
   padding: 30px 15px 30px 15px;
   border: solid 1px lightgray;
   border-radius: 8px;
@@ -495,8 +543,8 @@ Perfil*/
 }
 
 #pedido-img{
-  width: 6rem;
-  height: 6rem;
+  width: 5rem;
+  height: 5rem;
   margin: 2px;
   margin-left: 1rem;
 }
@@ -520,6 +568,7 @@ Perfil*/
 
   .pago-pedido{
     width: 900px;
+    height: 500px;
   }
 
 }

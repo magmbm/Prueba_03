@@ -21,19 +21,6 @@ $(document).ready(function(){
 
     $.ajax(settings).done(function (response){
         data= response.results[data_idx];
-        document.getElementById("pedido-img").src= (data.background_image).toString();
-        $(".pedido-nombre").append(
-            (data.name).toString()
-        );
-        $(".pedido-cant").append(
-            cantidad 
-        );
-        $(".sub-precio").append(
-            '<p>$'+ (cantidad * 50990).toString() +'</p>'
-        );
-        $(".total-precio").append(
-            '<p>$'+ (cantidad * 50990).toString() + '</p>'
-        );
     })
 
     $("#emailSmall").css("visibility", "hidden");

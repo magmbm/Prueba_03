@@ -15,4 +15,11 @@ urlpatterns=[
     path("pago", views.pago, name="pago"),
     path("cart", views.cart, name="cart"),
     path("registro", views.registro, name="registro"),
+    path("prueba", views.prueba, name="prueba"),
+    path("contactar", views.contactar, name="contactar"),
+    path("crud_c", views.crud_contact, name="crud_c"),
+    path("crud_b", views.crud_boleta, name="crud_b"),
+    path("contact_details", views.contact_details, name="contact_details"),
+    path("pedido_details", views.pedido_details, name="pedido_details")
+
 ]

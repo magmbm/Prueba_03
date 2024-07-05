@@ -37,9 +37,12 @@
             <li class="nav-item {% if current == 'novedades' %} active {% endif %}">
                 <a class="nav-link" href="{% url 'novedades' %}">Novedades</a>
             </li>
+            <li class="nav-item {% if current == 'contacto' %} active {% endif %}">
+                <a class="nav-link" href="{% url 'contactar' %}">Contáctanos</a>
+            </li>
           {% if user.is_authenticated %}
             <li class="nav-item  {% if current == 'login' %} active {% endif %}dropdown">
-                <a class="nav-link dropdown-toggle" href="{% url 'perfil' %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{user.username}} </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{% url 'perfil' %}">Ver Perfil</a>
@@ -51,6 +54,16 @@
                 <a class="nav-link {% if current == 'login' %}active{% endif %}" href="{% url 'login_t' %}">Login</a>
             </li>
           {% endif %}
+          {% if user.is_superuser %}
+            <li class="nav-item {% if current == 'mantenedores' %} active {% endif %}dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mantenedores</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'crud_c' %}">Solicitudes de Contácto</a>
+                    <a class="dropdown-item" href="{% url 'crud_b' %}">Boletas/Pedidos</a>
+                </div>
+            </li>
+          {% endif%}
         </ul>
       </div>
     </nav>

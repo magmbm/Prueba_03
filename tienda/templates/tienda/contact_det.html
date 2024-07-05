@@ -65,6 +65,12 @@
             {% csrf_token %}
             <div class="my-3 collapse" id="collapseExample">
                 <textarea type="text" class="form-control" name="respuesta" rows="3"></textarea>
+                {% if mensaje %}
+
+                <div class="alert alert-danger my-3" role="alert">
+                    {{mensaje}}
+                </div>
+                {% endif %}
                 <button type="submit" class="btn btn-primary my-3" name="boton_id" value="{{solicitud.id}}">Enviar</button>
             </div>
         </form>

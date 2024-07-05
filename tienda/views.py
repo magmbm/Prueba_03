@@ -43,22 +43,43 @@ def load_to_db(request):
 
 @login_required(login_url='/tienda/login')
 def cart(request):
-    user = User.objects.get(username=request.user)
-    cli = user.cliente
-    try:
-        pedido = Pedido.objects.get(f_cliente=cli, current=True)
-        records = Record.objects.filter(pedido_FK= pedido)
-        context = {
-            "records": records,
-            "pedido": pedido,
-            "current": "carro",
-        }
-    except:
-        context = {
-            "message": "Su carrito esta vacio",
-            "current": "carro"
-        }
-    return render(request, "tienda/carrito.html", context)
+    if request.method== "POST":
+        if 'plus-btn' in request.POST:
+            user= request.user
+            cli= user.cliente
+            game_id= request.POST.get("minus-btn")
+            game= Game.objects.get(id= game_id)
+            pedido= Pedido.objects.get(f_cliente= cli, current= True)
+            record= Record.objects.get(pedido_FK= pedido, f_game= game)
+            record.cant= record.cant +1
+            record.save()
+        if 'minus-btn' in request.POST:
+            user= request.user
+            cli= user.cliente
+            game_id= request.POST.get("minus-btn")
+            game= Game.objects.get(id= game_id)
+            pedido= Pedido.objects.get(f_cliente= cli, current= True)
+            record= Record.objects.get(pedido_FK= pedido, f_game= game)
+            record.cant= record.cant - 1
+            record.save()
+        return redirect('cart')
+    else:
+        user = User.objects.get(username=request.user)
+        cli = user.cliente
+        try:
+            pedido = Pedido.objects.get(f_cliente=cli, current=True)
+            records = Record.objects.filter(pedido_FK= pedido)
+            context = {
+                "records": records,
+                "pedido": pedido,
+                "current": "carro",
+            }
+        except:
+            context = {
+                "message": "Su carrito esta vacio",
+                "current": "carro"
+            }
+        return render(request, "tienda/carrito.html", context)
 
 def contactar(request):
     if request.method== "POST":
@@ -92,12 +113,48 @@ def base(request):
     return render(request, "tienda/base.html", context)
 
 def crud_contact(request):
-    contactos= Contact.objects.all()
-    context={"contact": contactos}
-    return render(request, "tienda/crud_contact.html", context)
+    if request.method== "POST":
+        id_c= request.POST["boton_id"]
+        request.session["id_c"]= id_c
+        solicitud= Contact.objects.get(id= id_c)
+        resuelta= solicitud.resuelta
+        if resuelta:
+            res= "Si"
+        else:
+            res= "No"
+        try:
+            cliente= solicitud.f_cliente
+            context={"cliente": cliente,
+                     "solicitud": solicitud,
+                     "res": res}
+            return contact_details(request, context)
+        except:
+            context={"solicitud": solicitud,
+                     "no_cli": "Cliente no Registrado",
+                     "res": res}
+            return contact_details(request, context)
+    else :
+        contactos= Contact.objects.all()
+        context={"contact": contactos}
+        return render(request, "tienda/crud_contact.html", context)
 
-def contact_details(request):
-    return render(request, "tienda/contact_det.html", {})
+def contact_details(request, contexto):
+    if request.method== "POST":
+        try:
+
+            id_c= request.POST["boton_id"]
+            respuesta= request.POST["respuesta"]
+            solicitud= Contact.objects.get(id= id_c)
+            solicitud.respuesta= respuesta
+            solicitud.resuelta= True
+            solicitud.save()
+            return redirect('crud_contact')
+        except:
+            return render(request, "tienda/contact_det.html", contexto)
+    else:
+        return render(request, "tienda/contact_det.html", contexto)
+    
+    
 
 def crud_boleta(request):
     if request.method== "POST":
@@ -150,17 +207,16 @@ def novedades(request):
 
 
 def prueba(request):
-    user= request.user
-    if user.is_superuser:
-        cont= 1
+    
+    if request.method== "POST":
+        game_cant= request.POST.get("juan") 
+        context = {
+            "uno": game_cant,
+        }
+        return render(request, "tienda/test.html", context)
     else:
-        cont= 2
-    context = {
-        "uno": user,
-        "cont": cont
-    }
-
-    return render(request, "tienda/test.html", context)
+        context={}
+        return render(request, "tienda/producto.html", context)
 
 
 def producto(request):
@@ -176,7 +232,6 @@ def producto(request):
                 pedido.nro_productos = pedido.nro_productos + int(game_cant)
                 pedido.total_precio = pedido.total_precio + (int(game_cant) * game.precio)
                 pedido.save()
-
                 try:
                     registro_same_game= Record.objects.get(pedido_FK= pedido, f_game= game)
                     registro_same_game.cant= registro_same_game.cant + int(game_cant)
@@ -191,13 +246,14 @@ def producto(request):
                         precio_total=int(game.precio) * int(game_cant)
                     )
                     registro.save()
-
-                context = {"cli": cli,
-                           "pedido": pedido}
+                    context = {"cli": cli,
+                           "pedido": pedido,
+                           }
+                    return redirect('cart')
             except:
                 # Si nunca ha tenido un pedido se hace ahora
                 pedido = Pedido.objects.create(
-                    nro_productos=game_cant,
+                    nro_productos= game_cant,
                     f_cliente=cli,
                 )
                 registro = Record.objects.create(
@@ -210,11 +266,13 @@ def producto(request):
                 registro.save()
                 context = {"cli": cli,
                            "pedido": pedido}
+            
             return redirect('cart')
         else:
-            context = {"current": "login"}
+            context = {"current": "login",}
             return render(request, "tienda/login.html", context)
     else:
+
         context = {"current": "tienda"}
         return render(request, "tienda/producto.html", context)
 

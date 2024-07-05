@@ -27,6 +27,24 @@
     width: 5rem;
 }
 
+.cant-btn-carro{
+    background-color: white;
+    border: 0px;
+
+}
+
+.cont-cant{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-cant-carro{
+    width: 40px;
+    text-align: center;
+    margin: 0px;
+}
+
 .title{
     margin-bottom: 5vh;
 }

@@ -19,10 +19,12 @@
         <div class="form-group">
             <label for="nombre_usuario">Nombre de usuario</label>
             <input type="text" class="form-control" id="nombre_usuario" name="nombre_user">
+            <small id="nombre_small"></small>
         </div>
         <div class="form-group">
             <label for="contra_usuario">Contraseña</label>
             <input type="password" class="form-control" id="contra_usuario" name="contra_user">
+            <small id="contra_small"></small>
         </div>
         <button type="submit" class="btn btn-primary">Ingresar</button>
         <hr>
@@ -30,4 +32,7 @@
         <p style="font-size: 1.4em;"><a href="{% url 'registro' %}"><b>Registrate</b></a></p>
     </form>
 </div>
+
+<script type="module" src="{% static 'JS/login.js' %}"></script>
+
 {% endblock %}

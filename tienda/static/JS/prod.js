@@ -39,7 +39,6 @@ $(document).ready(function(){
     })
     $("#prod-add").on("click", function(){
         localStorage.setItem( "cantidad", document.getElementById("prod-cant").value);
-        window.location = $('#prod_anch').attr('href');
     })
 
 })

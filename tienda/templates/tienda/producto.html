@@ -6,7 +6,7 @@
             <img class="col prod-img skeleton" src="{% static 'img/logo_1.png' %}" id="producto-img" >
             <div class="col ">
                 <h1 id="prod-titulo">...</h1>
-                <h2 >$65.990</h2>
+                <h2 >$59.990</h2>
                 <hr>
                 <h5 class="my-4">Disponibilidad: 4</h5>
                 <hr>
@@ -26,14 +26,17 @@
                 </div>
                 <hr>
                 <div class="prod-carrito">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <a id="prod_anch" href="pago.html"></a>
-                        <button class="btn-cant" id="minus" type="button">-</button>
-                        <input  id="prod-cant" type="number" name="prod-cantidad" value="1">
-                        <button class="btn-cant" id="plus" type="button">+</button>
-                        <button id="prod-add" type="submit" value= "3" name="prod-add-btn" class="btn ">Añadir Al Carrito</button>
-                    </form>
+                    <div class="ultimo-contenedor">
+                        <div class="botones-agregar">
+                                <form method="POST">
+                                {% csrf_token %}
+                                <button class="btn-cant" id="minus" type="button">-</button>
+                                <input  id="prod-cant" type="text" name="prod-cantidad" value="1">
+                                <button class="btn-cant" id="plus" type="button">+</button>
+                                <button id="prod-add" type="submit" value= "3" name="prod-add-btn" class="btn ">Añadir Al Carrito</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

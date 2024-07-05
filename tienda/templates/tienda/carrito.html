@@ -22,9 +22,10 @@
             <div class="title">
                 <div class="row">
                     <div class="col"><h4><b>Carrito de Compras</b></h4></div>
-                    <div class="col align-self-center text-right text-muted"> items</div>
+                    <div class="col align-self-center text-right text-muted">{{pedido.nro_productos}} items</div>
                 </div>
             </div>    
+            <hr>
             {% if message %}
                 {{message}}
             {% else %}
@@ -37,42 +38,18 @@
                             <div class="row text-muted">{{reg.f_game.nombre}}</div>
                             <div class="row">{{reg.f_game.genero}}</div>
                         </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">{{reg.cant}}</a><a href="#">+</a>
-                        </div>
-                        <div class="col"> ${{reg.precio_total}} <span class="close">&#10005;</span></div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input name="reg_cant_carrito" class="input-cant-carro" value= {{reg.cant}}>
+                                <button type="submit" name="minus-btn" class="cant-btn-carro" value={{reg.f_game.id}} >-</button>
+                                <button type="submit" name="plus-btn" class="cant-btn-carro" value={{reg.f_game.id}} >+</button>
+                        </form>
+                        <div class="col"> ${{reg.precio_total}} <span class="close"><button name="x-button" >&#10005;</button></span></div>
                     </div>
                 </div>
             {% endfor %}
-            {% comment %}
-            <div class="row">
-                <div class="row main align-items-center">
-                    <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"></div>
-                    <div class="col">
-                        <div class="row text-muted">Shirt</div>
-                        <div class="row">Cotton T-shirt</div>
-                    </div>
-                    <div class="col">
-                        <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                    </div>
-                    <div class="col"> 44.00 <span class="close">&#10005;</span></div>
-                </div>
-            </div>
-            <div class="row border-top border-bottom">
-                <div class="row main align-items-center">
-                    <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                    <div class="col">
-                        <div class="row text-muted">Shirt</div>
-                        <div class="row">Cotton T-shirt</div>
-                    </div>
-                    <div class="col">
-                        <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                    </div>
-                    <div class="col">$ 44.00 <span class="close">&#10005;</span></div>
-                </div>
-            </div>
-            {% endcomment %}
             {% endif %}
+
             <div class="back-to-shop"><a href="{% url 'tienda' %}">&leftarrow; <span class="text-muted">Seguir comprando</span></a></div>
         </div>
         <div class="col-md-4 summary">

@@ -8,7 +8,15 @@
 </head>
 <body>
     {{uno}}
-    {{cont}}
-    
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <div>
+                <input type="text" name="juan" value= "3">
+            </div>
+        </div> 
+        <button type="submit">Enviar</button>
+    </form>
+
 </body>
 </html>

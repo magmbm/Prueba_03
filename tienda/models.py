@@ -59,3 +59,5 @@ class Contact(models.Model):
     mensaje= models.CharField(max_length= 500)
     fecha_emision= models.DateField(auto_now_add= True)
     email_emisor= models.CharField(max_length= 80)
+    respuesta= models.CharField(max_length= 500, null= True)
+    resuelta= models.BooleanField(null= True, default= False)

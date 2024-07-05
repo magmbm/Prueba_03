@@ -4,39 +4,70 @@
 
 <div class="table-contenedor">
     <div class="detalles-form">
-
     
-    <h1 class="">Detalle Pedido</h1>
-    <div class="login-header">
-        <h2>GameBuy</h2>
-        <img src="{% static 'img/logo_1.png' %}" alt="">
-    </div>
-    <h3 class="my-3">Id Pedido: {{pedido.id}}</h3>
-    <div class="form-group">
-        <h3>Cliente</h3>
-        <label for="cli_username">Nombre de Usuario</label>
-        <input type="text" class="form-control" id="cli_username" name="cli_username" value="{{user.username}}">
-        <label for="cli_nombre">Nombre</label>
-        <input type="text" class="form-control" id="cli_nombre" name="cli_nombre" value="{{cliente.nombre}}">
-        <label for="cli_apellido">Apellido</label>
-        <input type="text" class="form-control" id="cli_apellido" name="cli_apellido"value="{{cliente.primer_apellido}}">
+        <h1 class="">Detalle Solicitud</h1>
+        <div class="login-header">
+            <h2>GameBuy</h2>
+            <img src="{% static 'img/logo_1.png' %}" alt="">
+        </div>
+        <h3 class="my-3">Solicitud Nro {{solicitud.id}}</h3>
+        <div class="form-group">
+            {% if no_cli %}
+                <input disabled class="form-control" type="text" value={{no_cli}}>
+            {% else %}
+                <h3 class="subtitulo-form">Cliente</h3>
+                <div class="form-group">
+                    <label for="cli_username">Nombre de Usuario</label>
+                    <input disabled type="text" class="form-control" id="cli_username" name="cli_username" value="{{cliente.user.username}}">
 
-    </div>
-    <hr>
-    <div class="form-group">
-        <label for="cant_p">Cantidad de Productos</label>
-        <input type="text" class="form-control" id="cant_p" name="cant_p" value="{{pedido.nro_productos}}">
-    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cli_nombre">Nombre</label>
+                    <input disabled type="text" class="form-control" id="cli_nombre" name="cli_nombre" value="{{cliente.nombre}}">
+                </div>
+                <div class="form-group">
+                    <label for="cli_apellido">Apellido</label>
+                    <input  disabled type="text" class="form-control" id="cli_apellido" name="cli_apellido"value="{{cliente.primer_apellido}}">
+                </div>
+            {% endif %}
+        </div>
+        <hr>
+        <h3 class="subtitulo-form">Detalle</h3>
+        <div class="form-group">
+            <label for="asunto">Asunto</label>
+            <input disabled type="text" class="form-control" id="asunto" name="asunto" value="{{solicitud.asunto}}">
+        </div>
 
-    <div class="form-group">
-        <label for="monto_total">Monto Total</label>
-        <input class="form-control" id="monto_total" name="monto_total" value="${{pedido.total_precio}}">
-    </div>
-    
-    <div class="form-group">
-        <label for="fecha">Fecha Compra</label>
-        <input type="text" class="form-control" value="{{pedido.fecha_compra}}" name="fecha">
-    </div>
+        <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <input disabled type="email" class="form-control" id="monto_total" name="email" value="{{solicitud.email_emisor}}">
+        </div>
+        
+        <div class="form-group">
+            <label for="fecha">Fecha Solicitud</label>
+            <input disabled type="text" class="form-control" value="{{solicitud.fecha_emision}}" name="fecha">
+        </div>
+        <div class="form-group">
+            <label for="resuelto">Resulta</label>
+            <input disabled type="text" class="form-control" value="{{res}}" name="resuelto" id="resuelto">
+        </div>
+        <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <input disabled type="text" class="form-control" value="{{solicitud.mensaje}}" name="mensaje" >
+        </div>
+        {% if res == 'No' %}
+        <button class="btn btn-crud" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Resolver Solicitud
+          </button>
+        {% endif %}
+        <a href="{% url 'crud_c' %}"><button class="btn btn-primary">Volver a la lista</button></a>
+        <form method="post">
+            {% csrf_token %}
+            <div class="my-3 collapse" id="collapseExample">
+                <textarea type="text" class="form-control" name="respuesta" rows="3"></textarea>
+                <button type="submit" class="btn btn-primary my-3" name="boton_id" value="{{solicitud.id}}">Enviar</button>
+            </div>
+        </form>
     </div>
 </div>
 

@@ -6,21 +6,26 @@
 <table class="table table-hover tabla-crud">
     <thead>
       <tr>
-        <th scope="col">#</th>
+        <th scope="col">Id</th>
         <th scope="col">Asunto</th>
         <th scope="col">E-mail</th>
         <th scope="col">Fecha</th>
-        <th scope="col">Acciones</th>
+        <th scope="col">Resuelta</th>
+        <th scope="col">Detalles</th>
       </tr>
     </thead>
     <tbody>
         {% for con in contact %}
             <tr>
-                <th scope="row">1</th>
-                <td>{{con.asunto}}</td>
-                <td>{{con.email_emisor}}</td>
-                <td>{{con.fecha_emision}}</td>
-                <td><a href="{% url 'contact_details' %}"><button type="button" class="btn btn-crud">Revisar</button></a></td>
+              <th scope="row">{{con.id}}</th>
+              <td>{{con.asunto}}</td>
+              <td>{{con.email_emisor}}</td>
+              <td>{{con.fecha_emision}}</td>
+              <td>{% if con.resuelta %} Si {% else %} No {% endif %}</td>
+              <form method="POST">
+                {% csrf_token %}
+                <td><button type="submit" value="{{con.id}}" name="boton_id" class="btn btn-crud">Revisar</button></td>
+              </form>
             </tr>
         {% endfor %}
     </tbody>

@@ -14,9 +14,9 @@
     </div>
     <h3 class="my-3">Id Pedido: {{pedido.id}}</h3>
     <div class="form-group">
-        <h3>Cliente</h3>
+        <h3 class="subtitulo-form">Cliente</h3>
         <label for="cli_username">Nombre de Usuario</label>
-        <input type="text" class="form-control" id="cli_username" name="cli_username" value="{{user.username}}">
+        <input type="text" class="form-control" id="cli_username" name="cli_username" value="{{cliente.user.username}}">
         <label for="cli_nombre">Nombre</label>
         <input type="text" class="form-control" id="cli_nombre" name="cli_nombre" value="{{cliente.nombre}}">
         <label for="cli_apellido">Apellido</label>
@@ -24,6 +24,7 @@
 
     </div>
     <hr>
+    <h3 class="subtitulo-form">Detalle</h3>
     <div class="form-group">
         <label for="cant_p">Cantidad de Productos</label>
         <input type="text" class="form-control" id="cant_p" name="cant_p" value="{{pedido.nro_productos}}">

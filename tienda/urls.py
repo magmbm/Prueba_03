@@ -20,6 +20,6 @@ urlpatterns=[
     path("crud_c", views.crud_contact, name="crud_c"),
     path("crud_b", views.crud_boleta, name="crud_b"),
     path("contact_details", views.contact_details, name="contact_details"),
-    path("pedido_details", views.pedido_details, name="pedido_details")
+    path("pedido_details", views.pedido_details, name="pedido_details"),
 
 ]

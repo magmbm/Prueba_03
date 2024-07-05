@@ -21,38 +21,45 @@
         <div class="form-group">
             <label for="nombre_usuario">Nombre de usuario</label>
             <input type="text" class="form-control" id="nombre_usuario" name="nombre_user" placeholder="Ejemplo: PanConQueso">
+            <small id="user_small"></small>
         </div>
 
         <div class="form-group">
             <label for="contra_usuario">Nombre</label>
-            <input type="text" class="form-control" id="nom_real1" name="nombre" placeholder="Juan">
+            <input type="text" class="form-control" id="nombre_id" name="nombre" placeholder="Juan">
+            <small id="nombre_small"></small>
         </div>
 
         <div class="form-group">
             <label for="contra_usuario">Primer Apellido</label>
             <input type="text" class="form-control" id="p_apellido" name="pri_apellido" placeholder="Balmaceda">
+            <small id="primer_apellido_small"></small>
         </div>
 
         <div class="form-group">
             <label for="contra_usuario">Segundo Apellido</label>
             <input type="text" class="form-control" id="s_apellido" name="seg_apellido" placeholder="Torres">
+            <small id="segundo_apellido_small"></small>
         </div>
 
         <div class="form-group">
             <label for="contra_usuario">Correo Electrónico</label>
             <input type="email" class="form-control" id="correo_id" name="email" placeholder="example@gmail.com">
+            <small id="email_small"></small>
         </div>
 
         <div class="form-group">
             <label for="contra_usuario">Contraseña</label>
             <input type="password" class="form-control" id="contra_usuario" name="contra_user" placeholder="Nunca comparta su contraseña">
+            <small id="contra_small"></small>
         </div>
 
-        <button type="submit" class="btn btn-primary">Registrarse</button>
+        <button type="submit" id="boton-registro" class="btn btn-primary">Registrarse</button>
         <hr>
     </form>
 </div>
 
+<script type="module" src="{% static 'JS/registro.js' %}"></script>
     <!-- <script type="module" href="{% static 'JS/main.js' %}"></script> -->
 
     <!--

@@ -21,5 +21,6 @@ urlpatterns=[
     path("crud_b", views.crud_boleta, name="crud_b"),
     path("contact_details", views.contact_details, name="contact_details"),
     path("pedido_details", views.pedido_details, name="pedido_details"),
+    path("change_pass", views.change_pass, name="change_pass"),
 
 ]

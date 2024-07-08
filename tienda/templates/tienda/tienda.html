@@ -12,28 +12,34 @@
     <div class="container-fluid  my-4 tienda-search-bar">
         <div class="row justify-content-center">
             <div class="input-group" id="search-input">
-                <div class="input-group-prepend">
-                <div class="input-group-text">lupa</div>
+                <input type="text" class="form-control" id="tienda-buscador" placeholder="Dark Souls">
+                <div class="input-group-append">
+                    <div class="input-group-text"><img src="{% static 'img/lupa.png' %}" class="lupa-img"></div>
                 </div>
-                <input type="text" class="form-control" id="tienda-buscador" placeholder="dark souls">
             </div>
         </div>
     </div>
     <div class="container-fluid">
         <div class="row justify-content-center" id="store-display">
-            <div class="carta"> 
-                <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
-                <div class="card-cont"> 
-                    <div class="upper-cont ske-cont">
-                        <p class=" skeleton" id="ske-titulo"></p>
-                        <p class="skeleton"></p>
-                        <p class="skeleton"></p>
+            {% for game in games%}
+                    <div class="carta">
+                        <a src=""><img src="{{game.imagen}}"alt="Avatar" class="carta-img"></a>
+                        <div class="card-cont">
+                            <div class="upper-cont">
+                                <h4 class="my-3"><b> {{game.nombre}}  </b></h4>
+                                <p> {{game.genero}} </p>
+                                <p>${{game.precio}}</p>
+                            </div>
+                            <div class="lower-cont">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <button name="game_id" value='{{game.id}}' class="btn btn-primary carta-btn" type="submit">Ver más</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="lower-cont">
-                        <p class="ske-btn skeleton" ></p> 
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+            {% comment %}
             <div class="carta"> 
                 <img alt="avatar" src="{% static 'img/logo_1.png' %}" class="carta-img-default skeleton"> 
                 <div class="card-cont"> 
@@ -127,10 +133,10 @@
                     </div>
                 </div>
             </div>
+            {% endcomment %}
         </div>
         <a id="anch" href="{% url 'producto' %}"></a>
     </div>
     
-    <script type="module" src="{% static 'JS/tienda.js' %}"></script>
 
 {% endblock %}

@@ -29,14 +29,18 @@ def load_to_db(request):
     for i in range(20):
         resultados = data.get('results')[i]
         precio = random.randint(25990, 79990)
-        Game.objects.create(
+        cantidad= random.randint(3, 31)
+        game= Game.objects.create(
             id=i,
             nombre=resultados.get('name'),
             precio=precio,
             genero=get_generos(resultados.get('genres')),
             fecha_lanzamiento=resultados.get('released'),
+            cantidad= cantidad,
+            valoracion= resultados.get('rating'),
             imagen=resultados.get('background_image')
         )
+        game.save()
     context = {"data": data.get('results')}
     return render(request, "tienda/test.html", context)
 
@@ -194,12 +198,62 @@ def crud_boleta(request):
 def pedido_details(request):
     return render(request, "tienda/pedido_det.html", {})
 
+def change_pass(request):
+    return render(request, "tienda/change_pass.html")
+
 def perfil(request):
-    user= request.user
-    cli= user.cliente
-    context = {"cliente": cli,
-               "usuario": user}
-    return render(request, "tienda/perfil.html", context)
+    if request.method== "POST":
+        user= request.user
+        cli= user.cliente
+        try:
+            if 'edit-btn' in request.POST:
+                context = {"cliente": cli,
+                        "usuario": user,
+                        "mode": "edit"}
+                return render(request, "tienda/perfil.html", context)
+            
+            elif 'guardar-btn' in request.POST:
+                try:
+                    nombre= request.POST["nombre"]
+                    pri_apellido= request.POST["pri_apellido"]
+                    seg_apellido= request.POST["seg_apellido"]
+                    telefono= request.POST["telefono"]
+                    direccion= request.POST["direccion"]
+                    email= request.POST["email"]
+                    username= request.POST["nombre_usuario"]
+
+                    cli.nombre= nombre
+                    cli.primer_apellido= pri_apellido
+                    cli.segundo_apellido= seg_apellido
+                    cli.telefono= telefono
+                    cli.direccion= direccion
+                    user.email= email
+                    user.username= username
+                    user.save()
+                    cli.save()
+                    
+                    context = {"cliente": cli,
+                            "usuario": user,
+                            "mode": "no-edit"}
+                    return render(request, "tienda/perfil.html", context)
+                except: 
+                    user= request.user
+                    cli= user.cliente
+                    context = {"cliente": cli,
+                            "usuario": user,
+                            "flag": "dos",
+                            "mode": "edit"}
+                    return render(request, "tienda/perfil.html", context)     
+        except:
+            return redirect('perfil')
+    else:
+        user= request.user
+        cli= user.cliente
+        context = {"cliente": cli,
+                "usuario": user,
+                "mode": "no-edit"}
+
+        return render(request, "tienda/perfil.html", context)
 
 
 def home(request):
@@ -212,8 +266,14 @@ def home(request):
 
 
 def tienda(request):
-    context = {"current": "tienda"}
-    return render(request, "tienda/tienda.html", context)
+    if request.method== "POST":
+        request.session["id"]= request.POST["game_id"]
+        return redirect('producto')
+    else:
+        games= Game.objects.all()
+        context = {"current": "tienda",
+                "games": games}
+        return render(request, "tienda/tienda.html", context)
 
 
 def about(request):
@@ -243,9 +303,9 @@ def producto(request):
         if request.user.is_authenticated:
             user = User.objects.get(username=request.user)
             cli = user.cliente
-            game_cant = request.POST.get("prod-cantidad")
-            game_id = request.POST.get("prod-add-btn")
+            game_id = request.session["id"]
             game = Game.objects.get(id=game_id)
+            game_cant = game.cantidad
             try:
                 pedido = Pedido.objects.get(f_cliente=cli, current=True)
                 pedido.nro_productos = pedido.nro_productos + int(game_cant)
@@ -291,10 +351,12 @@ def producto(request):
             
             return redirect('cart')
         else:
-            return     redirect('login_t')
+            return redirect('login_t')
     else:
-
-        context = {"current": "tienda"}
+        game_id = request.session["id"]
+        game = Game.objects.get(id= int(game_id))
+        context = {"current": "tienda",
+                   "game": game}
         return render(request, "tienda/producto.html", context)
 
 

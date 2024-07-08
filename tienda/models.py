@@ -10,6 +10,8 @@ class Game(models.Model):
     precio= models.IntegerField()
     genero= models.CharField(max_length= 100)
     fecha_lanzamiento= models.DateField()
+    cantidad= models.IntegerField(default=0)
+    valoracion= models.IntegerField(default= 0)
     imagen= models.CharField(max_length= 1000, default= "https://github.com/magmbm/SQL_img/blob/main/control-del-juego.png")
 def __init__(self):
     return "Nombre del juego: " + str(self.nombre)

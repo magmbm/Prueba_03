@@ -22,6 +22,11 @@ p{
     margin: 0;
 }
 
+.lupa-img{
+  width: 20px;
+  height: 20px;
+}
+
 
 
 html, body{
@@ -102,11 +107,171 @@ html, body{
   margin: 0.4rem
 }
 
+/*Registro*/
+
+.form-registro{
+  height: 760px;
+  width: 300px;
+  margin-top: 40px;
+  padding: 40px;
+  border-radius: 8px;
+  background-color: #CECECE;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.form-registro label{
+  color: #FF943B;
+  font-weight: bold;
+}
+
+
+@media screen and (min-width: 500px){
+  .form-registro{
+    width: 500px;
+    height: 810px;
+  }
+}
+
+@media screen and (min-width: 1000px){
+  .form-registro{
+    width: 700px;
+    height: 850px;
+    margin-top: 60px;
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+
+  .login-footer p{
+    font-size: large;
+  }
+
+  #registrate-tag{
+    font-size: 30px;
+  }
+}
+
+
+@media screen and (min-width: 1500px){
+  .form-registro{
+    width: 900px;
+    height: 1100px;
+    margin-top: 80px;
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+
+  .login-header p{
+    font-size: 55px;
+    font-weight: bold;
+  }
+
+  .form-registro label{
+    font-size: xx-large;
+  }
+
+  .form-registro input{
+    height: 45px;
+    border-radius: 10px;
+    font-size: x-large;
+  }
+
+  .form-submit-btn{
+    width: 130px;
+    font-size: x-large;
+    height: 65px;
+    margin: 25px 0px 15px 0px;
+    border-radius: 10px;
+  }
+
+  .login-footer p{
+    font-size: x-large;
+  }
+
+  #registrate-tag{
+    font-size: 40px;
+  }
+
+}
+
+@media screen and (min-width: 2000px){
+  .form-registro{
+    width: 1100px;
+    height: 1550px;
+    margin-top: 80px;
+    border-radius: 20px;
+    padding-right: 60px;
+    padding-left: 60px;
+  }
+
+  .login-header p{
+    font-size: 85px;
+    font-weight: bold;
+  }
+
+  .login-header img{
+    width: 200px;
+    margin-bottom: 30px;
+
+  }
+
+  .form-registro label{
+    font-size: xx-large;
+  }
+
+  .form-registro input{
+    height: 60px;
+    border-radius: 10px;
+    font-size: x-large;
+  }
+
+  .form-registro input{
+    height: 60px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    font-size: x-large;
+  }
+
+  .form-submit-btn{
+    width: 150px;
+    font-size: x-large;
+    height: 70px;
+    margin: 25px 0px 25px 0px;
+    border-radius: 10px;
+  }
+
+  .login-footer p{
+    font-size: x-large;
+  }
+
+  #registrate-tag{
+    font-size: 55px;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
 /*
 LOGIN
 */
 
 
+.login-header img{
+  height: 22%;
+  width: 22%;
+}
+
+.login-header p{
+  font-weight: bold;
+}
 
 .contenedor-login{
   display: flex;
@@ -115,9 +280,150 @@ LOGIN
 
 .form-login{
   padding: 1.5rem 2rem 3rem 2rem;
-  margin: 3rem 30rem 3rem 30rem;
+  width: 300px;
+  height: 500px;
+  margin-top: 40px;
   border-radius: 8px;
   background-color: #CECECE;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.login-header p{
+  font-size: 35px;
+}
+
+.form-login label{
+  color: #FF943B;
+  font-weight: bold;
+}
+
+#registrate-tag{
+  font-size: 25px;
+}
+
+@media screen and (min-width: 500px){
+  .form-login{
+    width: 400px;
+    height: 500px;
+  }
+}
+
+@media screen and (min-width: 1000px){
+  .form-login{
+    width: 700px;
+    height: 550px;
+    margin-top: 60px;
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+
+  .login-footer p{
+    font-size: large;
+  }
+
+  #registrate-tag{
+    font-size: 30px;
+  }
+}
+
+
+@media screen and (min-width: 1500px){
+  .form-login{
+    width: 900px;
+    height: 790px;
+    margin-top: 80px;
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+
+  .login-header p{
+    font-size: 55px;
+    font-weight: bold;
+  }
+
+  .form-login label{
+    font-size: xx-large;
+  }
+
+  .form-login input{
+    height: 45px;
+    border-radius: 10px;
+    font-size: x-large;
+  }
+
+  .form-submit-btn{
+    width: 130px;
+    font-size: x-large;
+    height: 65px;
+    margin: 25px 0px 15px 0px;
+    border-radius: 10px;
+  }
+
+  .login-footer p{
+    font-size: x-large;
+  }
+
+  #registrate-tag{
+    font-size: 40px;
+  }
+
+}
+
+@media screen and (min-width: 2000px){
+  .form-login{
+    width: 1100px;
+    height: 1050px;
+    margin-top: 80px;
+    border-radius: 20px;
+    padding-right: 60px;
+    padding-left: 60px;
+  }
+
+  .login-header p{
+    font-size: 85px;
+    font-weight: bold;
+  }
+
+  .login-header img{
+    width: 200px;
+    margin-bottom: 30px;
+
+  }
+
+  .form-login label{
+    font-size: xx-large;
+  }
+
+  .form-login input{
+    height: 60px;
+    border-radius: 10px;
+    font-size: x-large;
+  }
+
+  .form-login input{
+    height: 60px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    font-size: x-large;
+  }
+
+  .form-submit-btn{
+    width: 150px;
+    font-size: x-large;
+    height: 70px;
+    margin: 25px 0px 25px 0px;
+    border-radius: 10px;
+  }
+
+  .login-footer p{
+    font-size: x-large;
+  }
+
+  #registrate-tag{
+    font-size: 55px;
+  }
+
 }
 
 .login-header{
@@ -126,14 +432,10 @@ LOGIN
   align-items: center;
 }
 
-.login-header img{
-  height: 22%;
-  width: 22%;
-}
 
-.login-header h2{
-  margin: 0px;
-}
+
+
+
 
 
 /*
@@ -149,7 +451,47 @@ Perfil*/
 
 .perfil-form{
   width: 60%;
+  
 }
+
+.perfil-header p{
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.contenedor-perfil{
+  display: flex;
+  justify-self: center;
+  height: 750px;
+  justify-content: center;
+  flex-direction: column;
+  margin: 70px 40px 20px 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.username-perfil {
+  border: none;
+  outline: none;
+  font-size: 3em;
+  color: rgb(0, 119, 255) !important;
+  font-weight: bold;
+}
+
+.username-perfil::placeholder{
+  color: rgb(0, 119, 255);
+
+}
+
+/*@media screen and (max-width: 1024px){
+  .perfil-form{
+    width: 400px;
+  }
+
+  .contenedor-perfil{
+    width: 600px;
+  }
+}*/
 
 
 /*Home*/

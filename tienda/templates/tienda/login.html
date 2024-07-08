@@ -6,7 +6,7 @@
     <form method="POST" class="form-login">
         {% csrf_token %}
         <div class="login-header">
-            <h2>GameBuy</h2>
+            <p>GameBuy</p>
             <img src="{% static 'img/logo_1.png' %}" alt="">
             {% if mensaje %}
                 <div class="alert alert-danger my-3" role="alert">
@@ -26,10 +26,12 @@
             <input type="password" class="form-control" id="contra_usuario" name="contra_user">
             <small id="contra_small"></small>
         </div>
-        <button type="submit" class="btn btn-primary">Ingresar</button>
+        <button type="submit" class="btn btn-primary form-submit-btn">Ingresar</button>
         <hr>
-        <p>¿No tienes una cuenta?</p>
-        <p style="font-size: 1.4em;"><a href="{% url 'registro' %}"><b>Registrate</b></a></p>
+        <div class="login-footer">
+            <p>¿No tienes una cuenta?</p>
+            <p id="registrate-tag"><a href="{% url 'registro' %}"><b>Registrate</b></a></p>
+        </div>
     </form>
 </div>
 

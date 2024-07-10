@@ -12,8 +12,8 @@
         </div>
         <h3 class="my-3">Solicitud Nro {{solicitud.id}}</h3>
         <div class="form-group">
-            {% if no_cli %}
-                <input disabled class="form-control" type="text" value={{no_cli}}>
+            {% if cli %}
+                <p>No es Cliente Registrado<p/>
             {% else %}
                 <h3 class="subtitulo-form">Cliente</h3>
                 <div class="form-group">
@@ -48,19 +48,19 @@
             <input disabled type="text" class="form-control" value="{{solicitud.fecha_emision}}" name="fecha">
         </div>
         <div class="form-group">
-            <label for="resuelto">Resulta</label>
-            <input disabled type="text" class="form-control" value="{{res}}" name="resuelto" id="resuelto">
+            <label for="resuelto">Resuelta</label>
+            <input disabled type="text" class="form-control" value={% if solicitud.resuelta %} "Si" {% else %} "No" {% endif %} name="resuelto" id="resuelto">
         </div>
         <div class="form-group">
             <label for="mensaje">Mensaje</label>
             <input disabled type="text" class="form-control" value="{{solicitud.mensaje}}" name="mensaje" >
         </div>
-        {% if res == 'No' %}
+        {% if solicitud.resuelta != None %}
         <button class="btn btn-crud" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             Resolver Solicitud
           </button>
         {% endif %}
-        <a href="{% url 'crud_c' %}"><button class="btn btn-primary">Volver a la lista</button></a>
+        <a href="{% url 'crud_contact' %}"><button class="btn btn-primary">Volver a la lista</button></a>
         <form method="post">
             {% csrf_token %}
             <div class="my-3 collapse" id="collapseExample">

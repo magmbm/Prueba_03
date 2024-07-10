@@ -56,6 +56,7 @@ def get_precio(self):
     return self.precio
 
 class Contact(models.Model):
+    id= models.AutoField(primary_key= True)
     f_cliente= models.ForeignKey(Cliente, db_column= 'cliente_FK', on_delete= models.CASCADE, null= True)
     asunto= models.CharField(max_length= 50)
     mensaje= models.CharField(max_length= 500)

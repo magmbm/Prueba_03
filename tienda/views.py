@@ -131,56 +131,41 @@ def base(request):
 def crud_contact(request):
     if request.method== "POST":
         id_c= request.POST["boton_id"]
-        request.session["id_c"]= id_c
+        request.session["id"]= id_c
         solicitud= Contact.objects.get(id= id_c)
-        resuelta= solicitud.resuelta
-        if resuelta:
-            res= "Si"
-        else:
-            res= "No"
-        try:
-            cliente= solicitud.f_cliente
-            context={"cliente": cliente,
-                     "solicitud": solicitud,
-                     "res": res}
-
-            request.method= None
-            return contact_details(request, context)
-        except:
-            context={"solicitud": solicitud,
-                     "no_cli": "Cliente no Registrado",
-                     "res": res}
-            request.method= None
-            return contact_details(request, context)
-    else :
+        return redirect('contact_details')
+    else:
         contactos= Contact.objects.all()
         context={"contact": contactos}
+
         return render(request, "tienda/crud_contact.html", context)
 
-def contact_details(request, contexto):
+def contact_details(request ):
     if request.method== "POST":
-        try:
-
-            id_c= request.POST["boton_id"]
-            respuesta= request.POST["respuesta"]
-            if respuesta== "" | respuesta is None:
-                contexto["mensaje"]= "Arriba"
-                return render(request, "tienda/contact_det.html", contexto)
-            else:
-                solicitud= Contact.objects.get(id= contexto.get("solicitud").get("id"))
-                solicitud.respuesta= respuesta
-                solicitud.resuelta= True
-                solicitud.save()
-                return redirect('crud_contact')
-        except:
-            contexto["mensaje"]= "Por aquí va la ruta"
-            return render(request, "tienda/contact_det.html", contexto)
+        respuesta= request.POST["respuesta"]
+        id_c= request.session["id"]
+        solicitud= Contact.objects.get(id= id_c)
+        solicitud.respuesta= respuesta
+        solicitud.resuelta= True
+        solicitud.save()
+        return redirect('crud_contact')
     else:
-        return render(request, "tienda/contact_det.html", contexto)
+        id_c= request.session["id"]
+        solicitud= Contact.objects.get(id= id_c)
+        if solicitud.f_cliente== None:
+            cli= True
+            cliente= None
+        else:
+            cli= False
+            cliente= solicitud.f_cliente
+        context= {"solicitud": solicitud,
+                  "cli": cli,
+                  "cliente": cliente}
+        return render(request, "tienda/contact_det.html", context)
     
     
 
-def crud_boleta(request):
+def crud_pedido(request):
     if request.method== "POST":
         id_p= request.POST.get("id_boton")
         pedido= Pedido.objects.get(id= id_p)

@@ -1,0 +1,79 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="my-4">Solicitudes de la tienda</h1>
+<div class="table-contenedor">
+<table class="table table-hover tabla-crud">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Asunto</th>
+        <th scope="col">E-mail</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Resuelta</th>
+        <th scope="col">Detalles</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for con in pagina.object_list %}
+            <tr>
+              <th scope="row">{{con.id}}</th>
+              <td>{{con.asunto}}</td>
+              <td>{{con.email_emisor}}</td>
+              <td>{{con.fecha_emision}}</td>
+              <td>{% if con.resuelta %} Si {% else %} No {% endif %}</td>
+              <form method="POST">
+                {% csrf_token %}
+                <td><button type="submit" value="{{con.id}}" name="boton_id" class="btn btn-crud">Revisar</button></td>
+              </form>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="container">
+  <div class="row my-5">
+      <p>Página: {{pagina.number}}/{{pagina.paginator.num_pages}}</p>
+      <div class="col-md-4 offset-md-3">
+          <nav aria-label="...">
+              <ul class="pagination">
+                  <li class="page-item">
+                      {% if pagina.has_previous %}
+                          <a class="page-link" href="{% url 'crud_c' %}?pagina={{pagina.previous_page_number}}">Anterior</a>
+                      {% endif %}
+                  </li>
+                  
+                  {% for num_page in pagina.paginator.page_range %}
+                  <br /> 
+                      {% if pagina.number == num_page %}
+                          <li class="page-item active" aria-current="page">
+                              <a class="page-link" href="{% url 'crud_c' %}?pagina={{num_page}}">{{num_page}}</a>
+                          </li>
+                      {% else %}
+                          <li class="page-item" aria-current="page">
+                              <a class="page-link" href="{% url 'crud_c' %}?pagina={{num_page}}">{{num_page}}</a>
+                          </li>
+                      {% endif %}
+                  <br />
+                  {% endfor %}
+
+                  <li class="page-item">
+                      {% if pagina.has_next %}
+                          <a class="page-link" href="{% url 'crud_c' %}?pagina={{pagina.next_page_number}}">Siguiente</a>
+                      {% endif %}
+                  </li>
+              </ul>
+          </nav>
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+<!--
+
+Para ir a una página manualmente, en el URL sebe agregar "?pagina=" y al lado debe ser el número de la página
+Ejemplo: /tienda/crud_c?pagina=2
+
+-->
+

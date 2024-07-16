@@ -9,7 +9,7 @@
         <div class=" perfil-header d-flex align-items-center">
             <p>{{flag}}Nombre de Usuario: &nbsp;&nbsp;</p>
             {% if mode == 'edit' %}
-                <input class=" username-perfil " type="text" name= "nombre_usuario" placeholder={{user.username}}>
+                <input class=" username-perfil " type="text" name= "nombre_usuario" value={{user.username}}>
             {% else %}
                 <h1 class="">{{user.username}}</h1>
             {% endif %}
@@ -19,24 +19,24 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="inputNombre">Nombre</label>
-                <input {% if mode != "edit" %} disabled {% endif %} type="text" id="inputNombre" name="nombre" class="form-control" placeholder="{{cliente.nombre}}">
+                <input {% if mode != "edit" %} disabled {% endif %} type="text" id="inputNombre" name="nombre" class="form-control" value="{{cliente.nombre}}">
             </div>
             <div class="form-group">
                 <label for="inputPriApellido">Primer Apellido</label>
-                <input {% if mode != "edit" %} disabled {% endif %} type="text" id="inputPriApellido"  name="pri_apellido" class="form-control" placeholder="{{cliente.primer_apellido}}">
+                <input {% if mode != "edit" %} disabled {% endif %} type="text" id="inputPriApellido"  name="pri_apellido" class="form-control" value="{{cliente.primer_apellido}}">
             </div>
             <div class="form-group">
                 <label for="inputSegApellido">Segundo Apellido</label>
-                <input {% if mode != 'edit' %} disabled {% else %} {% endif %} type="text" id="inputSegApellido" name="seg_apellido" class="form-control" placeholder="{{cliente.segundo_apellido}}">
+                <input {% if mode != 'edit' %} disabled {% else %} {% endif %} type="text" id="inputSegApellido" name="seg_apellido" class="form-control" value="{{cliente.segundo_apellido}}">
 
             </div>
             <div class="form-group">
               <label for="inputEmail">Correo Electrónico</label>
-              <input {% if mode != "edit" %} disabled {% endif %} type="email" class="form-control" name="email" id="inputEmail" aria-describedby="emailHelp" placeholder="{{usuario.email}}">
+              <input {% if mode != "edit" %} disabled {% endif %} type="email" class="form-control" name="email" id="inputEmail" aria-describedby="emailHelp" value="{{usuario.email}}">
             </div>
             <div class="form-group">
               <label for="inputDireccion">Dirección</label>
-              <input {% if mode != "edit" %} disabled {% endif %} type="text" class="form-control" id="inputDireccion" name="direccion" placeholder="{{cliente.direccion}}">
+              <input {% if mode != "edit" %} disabled {% endif %} type="text" class="form-control" id="inputDireccion" name="direccion" value="{{cliente.direccion}}">
             </div>
             <div class="form-group">
                 <label for="inputTelefono">Teléfono</label>
@@ -44,20 +44,20 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">+ 56 9</div>
                     </div>
-                    <input {% if mode != "edit" %} disabled {% endif %} type="text" class="form-control" name="telefono" id="inputTelefono"  placeholder="{{cliente.telefono}}">
+                    <input {% if mode != "edit" %} disabled {% endif %} type="text" class="form-control" name="telefono" id="inputTelefono"  value="{{cliente.telefono}}">
                 </div>
             </div>
             {% if mode != 'edit' %}
             <div class="form-group">
               <label for="inputPassword">Contraseña</label>
-              <input {% if mode != "edit" %} disabled {% endif %} type="password" name="contrasena" class="form-control" id="inputPassword" placeholder="************">
+              <input {% if mode != "edit" %} disabled {% endif %} type="password" name="contrasena" class="form-control" id="inputPassword" value="************">
             </div>
             {% endif %}
             {% if mode == 'edit' %}
             
 
+            <a href="{% url 'change_pass' %}"><button class="btn btn-primary my-3" type="button">Cambiar Contraseña</button></a>
                 <button class="btn btn-primary my-3" data-toggle="modal" data-target="#save-confirm" type="button">Guardar</button>
-                <a href="{% url 'change_pass' %}"><button class="btn btn-primary my-3" type="button">Cambiar Contraseña</button></a>
                 <div class="modal fade" id="save-confirm" tabindex="-1" aria-labelledby="save-cofirm-label" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">

@@ -55,7 +55,7 @@
             <label for="mensaje">Mensaje</label>
             <input disabled type="text" class="form-control" value="{{solicitud.mensaje}}" name="mensaje" >
         </div>
-        {% if solicitud.resuelta != None %}
+        {% if solicitud.resuelta == False %}
         <button class="btn btn-crud" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             Resolver Solicitud
           </button>

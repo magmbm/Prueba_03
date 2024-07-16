@@ -11,6 +11,8 @@ import http.client
 import random
 from .personal_f import get_generos
 from datetime import date
+from django.core.paginator import Paginator
+
 
 # Create your views here.
 
@@ -68,12 +70,17 @@ def cart(request):
             game= Game.objects.get(id= game_id)
             pedido= Pedido.objects.get(f_cliente= cli, current= True)
             record= Record.objects.get(pedido_FK= pedido, f_game= game)
-            record.cant= record.cant - 1
-            pedido.nro_productos= pedido.nro_productos - 1
-            record.precio_total= record.precio_total - game.precio
-            pedido.total_precio= pedido.total_precio - game.precio
-            pedido.save()
-            record.save()
+            if record.cant== 1:
+                pedido.nro_productos= pedido.nro_productos - 1 
+                pedido.total_precio= pedido.total_precio - game.precio
+                record.delete()
+            else:
+                record.cant= record.cant - 1
+                pedido.nro_productos= pedido.nro_productos - 1
+                record.precio_total= record.precio_total - game.precio
+                pedido.total_precio= pedido.total_precio - game.precio
+                pedido.save()
+                record.save()
         return redirect('cart')
     else:
         user = User.objects.get(username=request.user)
@@ -130,13 +137,46 @@ def base(request):
 
 def crud_contact(request):
     if request.method== "POST":
-        id_c= request.POST["boton_id"]
-        request.session["id"]= id_c
-        solicitud= Contact.objects.get(id= id_c)
-        return redirect('contact_details')
+        if 'boton_id' in request.POST:
+            id_c= request.POST["boton_id"]
+            request.session["id"]= id_c
+            solicitud= Contact.objects.get(id= id_c)
+            return redirect('contact_details')
+
+        elif 'boton-si' in request.POST:
+            contactos= Contact.objects.filter(resuelta= True)
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"contact": contactos,
+                     "pagina": pagina}
+            return render(request, "tienda/crud_contact.html", context)
+        elif 'boton-no' in request.POST:
+            contactos= Contact.objects.filter(resuelta= False)
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"contact": contactos,
+                     "pagina": pagina}
+            return render(request, "tienda/crud_contact.html", context)
+        elif 'search-asunto' in request.POST:
+            input= request.POST["input-asunto"]
+            contactos= Contact.objects.filter(asunto__startswith= input)
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"contact": contactos,
+                     "pagina": pagina}
+            return render(request, "tienda/crud_contact.html", context)
+        elif 'limpiar-filtro' in request.POST:
+            return redirect('crud_contact')
     else:
         contactos= Contact.objects.all()
-        context={"contact": contactos}
+        pagina = Paginator(contactos, 5)
+        lista_pagina = request.GET.get('pagina')
+        pagina = pagina.get_page(lista_pagina)
+        context={"pagina": pagina,
+        "contact": contactos}
 
         return render(request, "tienda/crud_contact.html", context)
 
@@ -152,6 +192,7 @@ def contact_details(request ):
     else:
         id_c= request.session["id"]
         solicitud= Contact.objects.get(id= id_c)
+        solicitud.resuelta
         if solicitud.f_cliente== None:
             cli= True
             cliente= None
@@ -177,7 +218,11 @@ def crud_pedido(request):
         return render(request, "tienda/pedido_det.html", context)
     else:
         pedidos= Pedido.objects.all()
-        context={"pedidos": pedidos}
+        pagina = Paginator(pedidos, 5)
+        lista_pagina = request.GET.get('pagina')
+        pagina = pagina.get_page(lista_pagina)
+        context={"pedidos": pedidos,
+                 "pagina": pagina}
         return render(request, "tienda/crud_boleta.html", context)
 
 def pedido_details(request):
@@ -252,12 +297,21 @@ def home(request):
 
 def tienda(request):
     if request.method== "POST":
-        request.session["id"]= request.POST["game_id"]
-        return redirect('producto')
+        if 'game_id' in request.POST:
+            request.session["id"]= request.POST["game_id"]
+            return redirect('producto')
+        elif 'boton-busqueda' in request.POST:
+            input= request.POST["input-busqueda"]
+            games= Game.objects.filter(nombre__startswith= input) 
+            context={"games": games,
+                     "current": "tienda",
+                     "input": input}
+            return render(request, "tienda/tienda.html", context)
     else:
         games= Game.objects.all()
         context = {"current": "tienda",
-                "games": games}
+                "games": games,
+                "input": ""}
         return render(request, "tienda/tienda.html", context)
 
 
@@ -290,7 +344,7 @@ def producto(request):
             cli = user.cliente
             game_id = request.session["id"]
             game = Game.objects.get(id=game_id)
-            game_cant = game.cantidad
+            game_cant = request.POST["prod-cantidad"]
             try:
                 pedido = Pedido.objects.get(f_cliente=cli, current=True)
                 pedido.nro_productos = pedido.nro_productos + int(game_cant)

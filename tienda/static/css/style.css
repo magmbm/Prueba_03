@@ -52,6 +52,11 @@ html, body{
 
 */
 
+.lupa-filtro{
+  width: 1rem;
+  height: 1rem;
+}
+
 .subtitulo-form{
   color: #FF943B;
   font-weight: bold;
@@ -597,7 +602,15 @@ Perfil*/
 
 /*Tienda*/
 
+.boton-lupa{
+  outline: none;
+  border: none;
+  appearance: none;
+  line-height: normal;
+}
+
 .skeleton{
+
   opacity: .7;
   animation: skeleton-loading 1s linear infinite alternate;
 }

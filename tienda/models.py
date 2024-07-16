@@ -30,7 +30,7 @@ def __init__(self):
 
 class Pedido(models.Model):
     id= models.AutoField(db_column= 'pedido_id', primary_key= True)
-    nro_productos= models.IntegerField()
+    nro_productos= models.IntegerField(default=0)
     f_cliente= models.ForeignKey(Cliente, db_column='cli_FK', on_delete=models.CASCADE)
     envio= models.BooleanField(default= True)
     fecha_compra= models.DateField(null= True)

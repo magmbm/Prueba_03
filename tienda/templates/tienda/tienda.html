@@ -9,16 +9,21 @@
         </div>
         <h2 class="row justify-content-center">Game Buy</h2>
     </div>
+    <form method="POST">
+        {% csrf_token %}
     <div class="container-fluid  my-4 tienda-search-bar">
         <div class="row justify-content-center">
-            <div class="input-group" id="search-input">
-                <input type="text" class="form-control" id="tienda-buscador" placeholder="Dark Souls">
-                <div class="input-group-append">
-                    <div class="input-group-text"><img src="{% static 'img/lupa.png' %}" class="lupa-img"></div>
+                <div class="input-group" id="search-input">
+                    <input type="text" name="input-busqueda" value="{{input}}" class="form-control" id="tienda-buscador" placeholder="Dark Souls">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <button type="submit" class="boton-lupa" name="boton-busqueda"><img src="{% static 'img/lupa.png' %}" class="lupa-img"></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <div class="container-fluid">
         <div class="row justify-content-center" id="store-display">
             {% for game in games%}

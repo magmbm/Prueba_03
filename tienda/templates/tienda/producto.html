@@ -22,7 +22,7 @@
 
                     <p id="fecha-prod">Lanzamiento: {{game.fecha_lanzamiento}}</p>
                     <p id="genre-prod" name="genero">Géneros: {{game.genero}}</p>
-                    <p id="rating-prod">Valoración: </p>
+                    <p id="rating-prod">Valoración: {{game.valoracion}}</p>
                 </div>
                 <hr>
                 <div class="prod-carrito">
@@ -33,7 +33,7 @@
                                 <button class="btn-cant" id="minus" type="button">-</button>
                                 <input  id="prod-cant" type="text" name="prod-cantidad" value="1">
                                 <button class="btn-cant" id="plus" type="button">+</button>
-                                <button id="prod-add" type="submit" value= "3" name="prod-add-btn" class="btn ">Añadir Al Carrito</button>
+                                <button id="prod-add" type="submit" value= "" name="prod-add-btn" class="btn ">Añadir Al Carrito</button>
                             </form>
                         </div>
                     </div>
@@ -41,5 +41,7 @@
             </div>
         </div>
     </div>
+
+    <script src="{% static 'JS/prod.js' %}"></script>
 
 {% endblock %}

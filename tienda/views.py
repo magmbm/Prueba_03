@@ -74,6 +74,7 @@ def cart(request):
                 pedido.nro_productos= pedido.nro_productos - 1 
                 pedido.total_precio= pedido.total_precio - game.precio
                 record.delete()
+                pedido.save()
             else:
                 record.cant= record.cant - 1
                 pedido.nro_productos= pedido.nro_productos - 1
@@ -137,6 +138,7 @@ def base(request):
 
 def crud_contact(request):
     if request.method== "POST":
+        #variables en las sessiones para tener control de los registros
         if 'boton_id' in request.POST:
             id_c= request.POST["boton_id"]
             request.session["id"]= id_c
@@ -144,41 +146,180 @@ def crud_contact(request):
             return redirect('contact_details')
 
         elif 'boton-si' in request.POST:
-            contactos= Contact.objects.filter(resuelta= True)
+            if request.session["asunto-filtro"]!= "limpio":
+                input= request.session["asunto-filtro"]
+                contactos= Contact.objects.filter(asunto__startswith= input).filter(resuelta= True).order_by('id')
+            else:
+                contactos= Contact.objects.filter(resuelta= True).order_by('id')
             pagina = Paginator(contactos, 5)
             lista_pagina = request.GET.get('pagina')
             pagina = pagina.get_page(lista_pagina)
+            request.session["resuelta-filtro"]= True 
             context={"contact": contactos,
                      "pagina": pagina}
             return render(request, "tienda/crud_contact.html", context)
         elif 'boton-no' in request.POST:
-            contactos= Contact.objects.filter(resuelta= False)
+            if request.session["asunto-filtro"]!= "limpio":
+                input= request.session["asunto-filtro"]
+                contactos= Contact.objects.filter(asunto__startswith= input).filter(resuelta= False).order_by('id')
+            else:
+                contactos= Contact.objects.filter(resuelta= False).order_by('id')
             pagina = Paginator(contactos, 5)
             lista_pagina = request.GET.get('pagina')
             pagina = pagina.get_page(lista_pagina)
+            request.session["resuelta-filtro"]= False
             context={"contact": contactos,
-                     "pagina": pagina}
+                     "pagina": pagina,
+                     }
             return render(request, "tienda/crud_contact.html", context)
         elif 'search-asunto' in request.POST:
             input= request.POST["input-asunto"]
-            contactos= Contact.objects.filter(asunto__startswith= input)
+            request.session["asunto-filtro"]= input
+            if request.session["resuelta-filtro"]!= "limpio":
+                contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input)
+            else:
+                contactos= Contact.objects.filter(asunto__startswith= input)
             pagina = Paginator(contactos, 5)
             lista_pagina = request.GET.get('pagina')
             pagina = pagina.get_page(lista_pagina)
             context={"contact": contactos,
                      "pagina": pagina}
             return render(request, "tienda/crud_contact.html", context)
-        elif 'limpiar-filtro' in request.POST:
+        
+        elif 'search-email' in request.POST:
+            input= request.POST["input-email"]
+            request.session["email-filtro"]= input
+            if request.session["id-filtro"]!= "limpio":
+                contactos= Contact.objects.filter(id= request.session["id-filtro"])
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+            elif request.session["asunto-filtro"]!= "limpio":
+                input_asunto= request.session["asunto-filtro"]
+                if request.session["resuelta-filtro"]!= "limpio":
+                    contactos= Contact.objects.filter(email_emisor__startswith= input).filter(
+                        resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input_asunto)
+                else:
+                    contactos= Contact.objects.filter(asunto__startswith= input).filter(email_emisor__startswith= input) 
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+            elif request.session["resuelta-filtro"]!= "limpio":
+                if request.session["asunto-filtro"]!= "limpio":
+                    input_asunto= request.session["asunto-filtro"]
+                    contactos= Contact.objects.filter(email_emisor__startswith= input).filter(
+                        resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input_asunto)
+                else:
+                    contactos= Contact.objects.filter(email_emisor__startswith= input).filter(resuelta= request.session["resuelta-filtro"])
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+            else:
+                contactos= Contact.objects.filter(email_emisor__startswith= input)
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+        elif 'search-id' in request.POST:
+            input= request.POST["input-id"]
+            request.session["id-filtro"]= input
+            contactos= Contact.objects.filter(id= input)
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"contact": contactos,
+                     "pagina": pagina}
+            return render(request, "tienda/crud_contact.html", context)
+
+        elif 'limpiar-filtro-resuelta' in request.POST:
+            request.session["resuelta-filtro"]= "limpio"
             return redirect('crud_contact')
     else:
-        contactos= Contact.objects.all()
-        pagina = Paginator(contactos, 5)
-        lista_pagina = request.GET.get('pagina')
-        pagina = pagina.get_page(lista_pagina)
-        context={"pagina": pagina,
-        "contact": contactos}
-
-        return render(request, "tienda/crud_contact.html", context)
+        if 'limpiar-filtros' in request.GET:
+            request.session["asunto-filtro"]= "limpio"
+            request.session["resuelta-filtro"]= "limpio"
+            request.session["email-filtro"]= "limpio" 
+            request.session["id-filtro"]= "limpio"
+            contactos= Contact.objects.get_queryset().order_by('id')
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+            "contact": contactos,
+            }
+            return render(request, "tienda/crud_contact.html", context)
+        try:
+            if request.session["asunto-filtro"]!= "limpio":
+                input= request.session["asunto-filtro"]
+                if request.session["resuelta-filtro"]!= "limpio":
+                    contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input)
+                    pagina = Paginator(contactos, 5)
+                    lista_pagina = request.GET.get('pagina')
+                    pagina = pagina.get_page(lista_pagina)
+                    context={"pagina": pagina,
+                    "contact": contactos}
+                    return render(request, "tienda/crud_contact.html", context)
+                elif request.session["resuelta-filtro"]!= "limpio":
+                    if request.session["asunto-filtro"]!= "limpio":
+                        contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(
+                            email_emisor__startswith= input).filter(asunto__startswith= request.session["asunto-filtro"])
+                    else:
+                        contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(email_emisor__startswith= input)
+                    pagina = Paginator(contactos, 5)
+                    lista_pagina = request.GET.get('pagina')
+                    pagina = pagina.get_page(lista_pagina)
+                    context={"pagina": pagina,
+                            "contact": contactos}
+                    return render(request, "tienda/crud_contact.html", context)
+                elif request.session["asunto-filtro"]!= "limpio":
+                    input= request.session["asunto-filtro"]
+                    if request.session["resuelta-filtro"]!= "limpio":
+                        contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input)
+                    else:
+                        contactos= Contact.objects.filter(asunto__startswith= input) 
+                    pagina = Paginator(contactos, 5)
+                    lista_pagina = request.GET.get('pagina')
+                    pagina = pagina.get_page(lista_pagina)
+                    context={"pagina": pagina,
+                            "contact": contactos}
+                    return render(request, "tienda/crud_contact.html", context)
+            elif request.session["resuelta-filtro"]!= "limpio":
+                contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"])
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+            else:
+                contactos= Contact.objects.get_queryset().order_by('id')
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                "contact": contactos,
+                }
+                return render(request, "tienda/crud_contact.html", context)
+        except:
+            contactos= Contact.objects.get_queryset().order_by('id')
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+            "contact": contactos,
+            }
+            return render(request, "tienda/crud_contact.html", context)
 
 def contact_details(request ):
     if request.method== "POST":
@@ -229,7 +370,35 @@ def pedido_details(request):
     return render(request, "tienda/pedido_det.html", {})
 
 def change_pass(request):
-    return render(request, "tienda/change_pass.html")
+    if request.method== "POST":
+        try:
+            usuario = request.user
+            old_password= request.POST["old-pass"]
+            user = authenticate(request, username=usuario, password=old_password)
+            if user is not None:
+                new_password= request.POST["new-pass"]
+                new_password_rep= request.POST["new-pass-rep"]
+                if new_password== "" | new_password== " " | new_password_rep=="" | new_password==" ":
+                    context={"mensaje": "Debe ingresar las nuevas contraseñas para proceder"}
+                    return render(request, "tienda/change_pass.html", context)
+                elif new_password_rep== new_password:
+                    user.set_password(new_password)
+                    user.save()
+                    request.POST["new-pass"]= None
+                    request.POST["new-pass-rep"]= None
+                    request.POST["old-pass"]= None
+                    return redirect('home') 
+                else:
+                    context={"mensaje": "Las nuevas contraseñas no coinciden"}
+                    return render(request, "tienda/change_pass.html", context)
+            else:
+                context={"mensaje": "La contraseña antigua no es correcta"}
+                return render(request, "tienda/change_pass.html", context)
+        except:
+            context={"mensaje": "No puede dejar ninguno de los campos vacios"}
+            return render(request, "tienda/change_pass.html", context)
+    else:
+        return render(request, "tienda/change_pass.html")
 
 def perfil(request):
     if request.method== "POST":

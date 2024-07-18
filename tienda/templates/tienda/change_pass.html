@@ -1,0 +1,26 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="change-pass-contenedor">
+    <form action="" class="form-change-pass" method="POST">
+        {% csrf_token %}
+        <p class="titulo-change-pass">Cambiar Contraseña</p>
+        <p>{{mensaje}}</p>
+        <div class="form-group">
+            <label for="vieja_control">Vieja Contraseña</label>
+            <input class="form-control" id="vieja_control" name="old-pass" type="password">
+        </div>
+        <div class="form-group">
+            <label for="nueva_contra">Nueva Contraseña</label>
+            <input class="form-control" id="nueva_contra" name="new-pass" type="password">
+        </div>
+        <div class="form-group">
+            <label for="nueva_contra_2">Repetir Nueva Contraseña</label>
+            <input class="form-control" id="nueva_contra_2" name="new-pass-rep" type="password">
+        </div>
+        <button type="submit" name="change-pass-boton" class="btn btn-primary">Cambiar Contraseña</button>
+    </form>
+</div>
+
+{% endblock %}

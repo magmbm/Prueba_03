@@ -3,10 +3,30 @@
 {% block content %}
 <h1 class="my-4">Solicitudes de la tienda</h1>
 <div class="table-contenedor">
+<div class="contenedor-limpiar-filtros">
+  <form action="{% url 'crud_contact' %}" method="GET">
+    <button type="submit" name="limpiar-filtros" class="btn btn-primary boton-limpiar-filtros">Limpiar Filtros</button>
+  </form>
+</div>
 <table class="table table-hover tabla-crud">
     <thead>
       <tr>
-        <th scope="col">Id</th>
+        <th scope="col">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Id
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <form class="form-inline my-2 my-lg-0" method="POST">
+                {% csrf_token %}
+                <div class="input-group mx-2">
+                  <input class="form-control mr-sm-2 " type="search" placeholder="1050" name="input-id" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" name="search-id" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </th>
         <th scope="col">
 
         <div class="dropdown">
@@ -17,24 +37,39 @@
               <form class="form-inline my-2 my-lg-0" method="POST">
                 {% csrf_token %}
                 <div class="input-group mx-2">
-                  <input class="form-control mr-sm-2 " type="search" placeholder="Search" name="input-asunto" aria-label="Search">
+                  <input class="form-control mr-sm-2 " type="search" placeholder="Buscar" name="input-asunto" aria-label="Search">
                   <button class="btn btn-outline-success my-2 my-sm-0" name="search-asunto" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
                 </div>
               </form>
             </div>
           </div>
         </th>
-        <th scope="col">E-mail</th>
+        <th scope="col">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              E-mail
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <form class="form-inline my-2 my-lg-0" method="POST">
+                {% csrf_token %}
+                <div class="input-group mx-2">
+                  <input class="form-control mr-sm-2 " type="search" placeholder="juantorres@gmail.com" name="input-email" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" name="search-email" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </th>
         <th scope="col">Fecha</th>
         <th scope="col">
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Resuelta
+              Resuelta {{flag}}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <form class="my-2 my-lg-0" method="POST">
                 {% csrf_token %}
-                  <button name="limpiar-filtro" type="submit" class="btn dropdown-item">-Limpiar-</button>
+                  <button name="limpiar-filtro-resuelta" type="submit" class="btn dropdown-item">-Limpiar-</button>
                   <button name="boton-si" value="si" type="submit" class="btn dropdown-item">Si</button>
                   <button name="boton-no" value="no" type="submit" class="btn dropdown-item">No</button>
               </form>
@@ -70,7 +105,7 @@
               <ul class="pagination">
                   <li class="page-item">
                       {% if pagina.has_previous %}
-                          <a class="page-link" href="{% url 'crud_contact' %}?pagina={{pagina.previous_page_number}}">Anterior</a>
+                          <a class="page-link" href="?pagina={{pagina.previous_page_number}}">Anterior</a>
                       {% endif %}
                   </li>
                   
@@ -78,11 +113,11 @@
                   <br /> 
                       {% if pagina.number == num_page %}
                           <li class="page-item active" aria-current="page">
-                              <a class="page-link" href="{% url 'crud_contact' %}?pagina={{num_page}}">{{num_page}}</a>
+                              <a class="page-link" href="?pagina={{num_page}}">{{num_page}}</a>
                           </li>
                       {% else %}
                           <li class="page-item" aria-current="page">
-                              <a class="page-link" href="{% url 'crud_contact' %}?pagina={{num_page}}">{{num_page}}</a>
+                              <a class="page-link" href="?pagina={{num_page}}">{{num_page}}</a>
                           </li>
                       {% endif %}
                   <br />
@@ -90,7 +125,7 @@
 
                   <li class="page-item">
                       {% if pagina.has_next %}
-                          <a class="page-link" href="{% url 'crud_contact' %}?pagina={{pagina.next_page_number}}">Siguiente</a>
+                          <a class="page-link" href="?pagina={{pagina.next_page_number}}">Siguiente</a>
                       {% endif %}
                   </li>
               </ul>
@@ -98,6 +133,7 @@
       </div>
   </div>
 </div>
+
 {% endblock %}
 
 {% comment %}

@@ -193,14 +193,6 @@ def crud_contact(request):
         elif 'search-asunto' in request.POST:
             input= request.POST["input-asunto"]
             request.session["asunto-filtro"]= input
-            if request.session["id-filtro"]!= "limpio":
-                contactos= Contact.objects.filter(id= request.session["id-filtro"])
-                pagina = Paginator(contactos, 5)
-                lista_pagina = request.GET.get('pagina')
-                pagina = pagina.get_page(lista_pagina)
-                context={"pagina": pagina,
-                        "contact": contactos}
-                return render(request, "tienda/crud_contact.html", context)
             contactos= Contact.objects.filter(asunto__startswith= input)
             if request.session["resuelta-filtro"]!= "limpio":
                 contactos= contactos.filter(resuelta= request.session["resuelta-filtro"])
@@ -367,6 +359,11 @@ def crud_contact(request):
                 }
                 return render(request, "tienda/crud_contact.html", context)
         except:
+            request.session["asunto-filtro"]= "limpio"
+            request.session["resuelta-filtro"]= "limpio"
+            request.session["email-filtro"]= "limpio" 
+            request.session["id-filtro"]= "limpio"
+            request.session["fecha-filtro"]= "limpio"
             contactos= Contact.objects.get_queryset().order_by('id')
             pagina = Paginator(contactos, 5)
             lista_pagina = request.GET.get('pagina')
@@ -419,9 +416,11 @@ def crud_pedido(request):
                 return render(request, "tienda/crud_boleta.html", context)
             input_cli= request.POST["cliente-id"]
             request.session["cliente-filtro"]= input_cli
-            cli= Cliente.objects.filter(name__startswith= input_cli)
+            usuario= User.objects.filter(username__startswith= input_cli) 
+            uu= usuario[0]
+            cli= Cliente.objects.get(user= uu)
             pedidos= Pedido.objects.filter(f_cliente= cli)
-            if request.session["min-monto-filtro"]!= "limpio" & request.session["max-monto-filtro"]:
+            if request.session["min-monto-filtro"]!= "limpio" and request.session["max-monto-filtro"]:
                 min_val= request.session["min-monto-filtro"]
                 max_val= request.session["max-monto-filtro"]
                 pedidos= pedidos.filter(total_precio__range=(min_val, max_val)) 
@@ -463,9 +462,6 @@ def crud_pedido(request):
                 min_val= request.session["min-monto-filtro"]
                 max_val= request.session["max-monto-filtro"]
                 pedidos= pedidos.filter(total_precio__range=(min_val, max_val)) 
-            if request.session["cliente-filtro"]!= "limpio":
-                cli= Cliente.objects.filter(name__startswith= input_cli)
-                pedidos= pedidos.filter(f_cliente= cli)
             if request.session["fecha-filtro"]!= "limpio":
                 pedidos= pedidos.filter(fecha_compra__contains= request.session["fecha-filtro"])
             pagina = Paginator(pedidos, 5)
@@ -489,9 +485,6 @@ def crud_pedido(request):
             request.session["min-monto-filtro"]= min_val
             request.session["max-monto-filtro"]= max_val
             pedidos= Pedido.objects.filter(total_precio__range=(min_val, max_val))
-            if request.session["cliente-filtro"]!= "limpio":
-                cli= Cliente.objects.filter(name__startswith= input_cli)
-                pedidos= pedidos.filter(f_cliente= cli)
             if request.session["productos-filtro"]!= "limpio":
                 pedidos= pedidos.filter(nro_productos= request.session["productos-filtro"])
             if request.session["fecha-filtro"]!= "limpio":
@@ -515,9 +508,6 @@ def crud_pedido(request):
             fecha= request.POST["fecha-id"]
             request.session["fecha-filtro"]= fecha
             pedidos= Pedido.objects.filter(fecha_compra__contains= fecha) 
-            if request.session["cliente-filtro"]!= "limpio":
-                cli= Cliente.objects.filter(name__startswith= input_cli)
-                pedidos= pedidos.filter(f_cliente= cli)
             if request.session["productos-filtro"]!= "limpio":
                 pedidos= pedidos.filter(nro_productos= request.session["productos-filtro"])
             if request.session["min-monto-filtro"]!= "limpio":
@@ -562,9 +552,6 @@ def crud_pedido(request):
                 min_val= request.session["min-monto-filtro"]
                 max_val= request.session["max-monto-filtro"]
                 pedidos= Pedido.objects.filter(total_precio__range=(min_val, max_val)) 
-                if request.session["cliente-filtro"]!= "limpio":
-                    cli= Cliente.objects.filter(name__startswith= input_cli)
-                    pedidos= pedidos.filter(f_cliente= cli)
                 pagina = Paginator(pedidos, 5)
                 lista_pagina = request.GET.get('pagina')
                 pagina = pagina.get_page(lista_pagina)
@@ -624,6 +611,13 @@ def crud_pedido(request):
                 }
                 return render(request, "tienda/crud_boleta.html", context)
         except:
+            request.session["monto-filtro"]= "limpio"
+            request.session["cliente-filtro"]= "limpio"
+            request.session["id-filtro"]= "limpio" 
+            request.session["productos-filtro"]= "limpio"
+            request.session["min-monto-filtro"]= "limpio"
+            request.session["max-monto-filtro"]= "limpio"
+            request.session["fecha-filtro"]= "limpio"
             pedidos= Pedido.objects.get_queryset().order_by('id')
             pagina = Paginator(pedidos, 5)
             lista_pagina = request.GET.get('pagina')

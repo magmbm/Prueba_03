@@ -633,27 +633,24 @@ def change_pass(request):
             usuario = request.user
             old_password= request.POST["old-pass"]
             user = authenticate(request, username=usuario, password=old_password)
-            if user is not None:
-                new_password= request.POST["new-pass"]
-                new_password_rep= request.POST["new-pass-rep"]
-                if new_password== "" | new_password== " " | new_password_rep=="" | new_password==" ":
-                    context={"mensaje": "Debe ingresar las nuevas contraseñas para proceder"}
-                    return render(request, "tienda/change_pass.html", context)
-                elif new_password_rep== new_password:
-                    user.set_password(new_password)
-                    user.save()
-                    request.POST["new-pass"]= None
-                    request.POST["new-pass-rep"]= None
-                    request.POST["old-pass"]= None
-                    return redirect('home') 
-                else:
-                    context={"mensaje": "Las nuevas contraseñas no coinciden"}
-                    return render(request, "tienda/change_pass.html", context)
-            else:
-                context={"mensaje": "La contraseña antigua no es correcta"}
-                return render(request, "tienda/change_pass.html", context)
         except:
             context={"mensaje": "No puede dejar ninguno de los campos vacios"}
+            return render(request, "tienda/change_pass.html", context)
+        if user is not None:
+            new_password= request.POST["new-pass"]
+            new_password_rep= request.POST["new-pass-rep"]
+            if new_password== "" or new_password== " " or new_password_rep=="" or new_password==" ":
+                context={"mensaje": "Debe ingresar las nuevas contraseñas para proceder"}
+                return render(request, "tienda/change_pass.html", context)
+            elif new_password_rep== new_password:
+                user.set_password(new_password)
+                user.save()
+                return redirect('home') 
+            else:
+                context={"mensaje": "Las nuevas contraseñas no coinciden"}
+                return render(request, "tienda/change_pass.html", context)
+        else:
+            context={"mensaje": "La contraseña antigua no es correcta"}
             return render(request, "tienda/change_pass.html", context)
     else:
         return render(request, "tienda/change_pass.html")

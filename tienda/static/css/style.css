@@ -242,8 +242,46 @@ input[type="range"]::-moz-range-thumb {
 
 .tabla-crud{
   margin-top: 20px;
-  width: 1200px;
+  width: 10px;
 }
+
+@media screen and (min-width: 650px){
+  .tabla-crud{
+    width: 40px;
+  }
+}
+
+
+@media screen and (min-width: 820px){
+  .tabla-crud{
+    width: 480px;
+  }
+}
+
+@media screen and (min-width: 950px){
+  .tabla-crud{
+    width: 880px;
+  }
+}
+
+@media screen and (min-width: 1050px){
+  .tabla-crud{
+    width: 980px;
+  }
+}
+
+@media screen and (min-width: 1280px){
+  .tabla-crud{
+    width: 1200px;
+  }
+}
+
+@media screen and (min-width: 1600px ){
+  .tabla-crud{
+    width: 1500px;
+  }
+}
+
 
 .detalles-form{
   width: 700px;
@@ -675,8 +713,138 @@ Perfil*/
   margin: 10px 0px 20px 0px;
   font-weight: bold;
   font-size: 25px;
+
+
 }
 
+.form-change-pass label{
+  font-weight: bold;
+}
+
+@media screen and (min-width: 200px){
+  .form-change-pass{
+    width: 250px;
+    height: 450px;
+  }
+
+  .form-change-pass input{
+    height: 30px;
+  }
+
+  .form-change-pass label{
+    font-size: 13px;
+  }
+
+  .boton-change-pass{
+    width: 140px;
+    font-size: 10px;
+  }
+
+  .titulo-change-pass{
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 375px){
+  .form-change-pass{
+    width: 350px;
+  }
+}
+
+@media screen and (min-width: 560px){
+  .form-change-pass{
+    width: 450px;
+
+  }
+}
+
+@media screen and (min-width: 900px){
+  .form-change-pass{
+    width: 560px;
+    height: 460px;
+  }
+
+  .form-change-pass input{
+    height: 30px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .form-change-pass label{
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  .titulo-change-pass{
+    font-size: 20px;
+  }
+
+  .boton-change-pass{
+    width: 150px;
+    font-size: 12px;
+    margin-top: 10px;
+    height: 40px;
+  }
+}
+
+
+@media screen and (min-width: 1300px){
+  .form-change-pass{
+    width: 600px;
+    height: 520px;
+  }
+
+  .form-change-pass input{
+    height: 35px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  .form-change-pass label{
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .titulo-change-pass{
+    font-size: 27px;
+  }
+
+  .boton-change-pass{
+    width: 160px;
+    font-size: 14px;
+    margin-top: 15px;
+    height: 40px;
+  }
+}
+
+@media screen and (min-width: 1500px){
+  .form-change-pass{
+    width: 850px;
+    height: 680px;
+  }
+
+  .form-change-pass input{
+    height: 40px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+  }
+
+  .form-change-pass label{
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  .titulo-change-pass{
+    font-size: 30px;
+  }
+
+  .boton-change-pass{
+    width: 220px;
+    font-size: 18px;
+    margin-top: 15px;
+    height: 50px;
+  }
+}
 
 /*@media screen and (max-width: 1024px){
   .perfil-form{

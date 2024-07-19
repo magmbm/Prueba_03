@@ -6,7 +6,9 @@
     <form action="" class="form-change-pass" method="POST">
         {% csrf_token %}
         <p class="titulo-change-pass">Cambiar Contraseña</p>
-        <p>{{mensaje}}</p>
+        {% if mensaje %}
+            <p class="alert alert-danger">{{mensaje}}</p>
+        {% endif %}
         <div class="form-group">
             <label for="vieja_control">Vieja Contraseña</label>
             <input class="form-control" id="vieja_control" name="old-pass" type="password">
@@ -19,7 +21,7 @@
             <label for="nueva_contra_2">Repetir Nueva Contraseña</label>
             <input class="form-control" id="nueva_contra_2" name="new-pass-rep" type="password">
         </div>
-        <button type="submit" name="change-pass-boton" class="btn btn-primary">Cambiar Contraseña</button>
+        <button type="submit" name="change-pass-boton" class="btn btn-primary boton-change-pass">Cambiar Contraseña</button>
     </form>
 </div>
 

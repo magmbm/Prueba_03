@@ -3,14 +3,124 @@
 {% block content %}
 <h1 class="my-4">Compras en la tienda</h1>
 <div class="table-contenedor">
+<div class="contenedor-limpiar-filtros">
+  <form action="{% url 'crud_pedido' %}" method="GET">
+    <button type="submit" name="limpiar-filtros" class="btn btn-primary boton-limpiar-filtros">Limpiar Filtros</button>
+  </form>
+</div>
 <table class="table table-hover tabla-crud">
     <thead>
       <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Cliente</th>
-        <th scope="col">Nro Productos</th>
-        <th scope="col">Fecha</th>
-        <th scope="col">Monto</th>
+        <th scope="col">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Id
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <form class="form-inline my-2 my-lg-0" method="POST">
+                {% csrf_token %}
+                <div class="input-group mx-2">
+                  <input class="form-control mr-sm-2 " type="search" placeholder="1" name="pedido-id" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" name="search-id" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </th>
+        <th scope="col">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Cliente
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <form class="form-inline my-2 my-lg-0" method="POST">
+                {% csrf_token %}
+                <div class="input-group mx-2">
+                  <input class="form-control mr-sm-2 " type="search" placeholder="juan2003" name="cliente-id" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" name="search-cliente" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </th>
+
+
+        <th scope="col">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Nro Productos
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <form class="form-inline my-2 my-lg-0" method="POST">
+                {% csrf_token %}
+                <div class="input-group mx-2">
+                  <input class="form-control mr-sm-2 " type="search" placeholder="10" name="productos-id" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" name="search-productos" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </th>
+        <th scope="col">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Fecha
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <form class="form-inline my-2 my-lg-0" method="POST">
+                {% csrf_token %}
+                <div class="input-group mx-2">
+                  <input class="form-control mr-sm-2 " type="search" placeholder="1" name="fecha-id" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" name="search-fecha" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </th>
+        <th scope="col">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Monto           
+            </button>
+            <div class="dropdown-menu range-precio" aria-labelledby="dropdownMenuButton">
+              <form class="form-inline my-2 my-lg-0" method="POST">
+                {% csrf_token %}
+                <div class="input-group mx-2">
+                    <div class="double-slider-box">
+                        <h3 class="range-title">Price Range Slider</h3>
+                        <div class="range-slider">
+                            <span class="slider-track"></span>
+                            <input type="range" class="min-val" name="min-val" min="1000" max="300000" value="25000" oninput="slideMin()">
+                            <input type="range" class="max-val" name="max-val" min="1000" max="300000" value="200000" oninput="slideMax()">
+                            <div class="tooltip min-tooltip"></div>
+                            <div class="tooltip max-tooltip"></div>
+                        </div>
+                        <div class="input-box">
+                            <div class="min-box">
+                                <div class="input-wrap">
+                                    <span class="input-addon">$</span>
+                                    <input type="text" name="min_input" class="input-field min-input" onchange="setMinInput()">
+                                </div>
+                            </div>
+                            <div class="max-box">
+                                <div class="input-wrap">
+                                    <span class="input-addon">$</span>
+                                    <input type="text" name="max_input" class="input-field max-input" onchange="setMaxInput()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                
+                        </div>
+                    </div>
+                <div class="boton-range-precio-cont">
+                    <button class="btn btn-outline-success my-2 my-sm-0" name="search-monto" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
+                </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </th>
         <th scope="col">Acciones</th>
       </tr>
     </thead>
@@ -68,6 +178,8 @@
       </div>
   </div>
 </div>
+<script src="{% static 'JS/price_range.js' %}"></script>
+
 {% endblock %}
 
 

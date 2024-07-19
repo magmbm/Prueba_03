@@ -60,7 +60,22 @@
             </div>
           </div>
         </th>
-        <th scope="col">Fecha</th>
+        <th scope="col">
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Fecha
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <form class="form-inline my-2 my-lg-0" method="POST">
+                  {% csrf_token %}
+                  <div class="input-group mx-2">
+                    <input class="form-control mr-sm-2 " type="search" placeholder="Buscar" name="input-fecha" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" name="search-fecha" type="submit"><img class="lupa-filtro" src="{% static 'img/lupa.png' %}"></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </th>
         <th scope="col">
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

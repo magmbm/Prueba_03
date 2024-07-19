@@ -146,11 +146,14 @@ def crud_contact(request):
             return redirect('contact_details')
 
         elif 'boton-si' in request.POST:
+            contactos= Contact.objects.filter(resuelta= True).order_by('id')
             if request.session["asunto-filtro"]!= "limpio":
                 input= request.session["asunto-filtro"]
-                contactos= Contact.objects.filter(asunto__startswith= input).filter(resuelta= True).order_by('id')
-            else:
-                contactos= Contact.objects.filter(resuelta= True).order_by('id')
+                contactos= contactos.filter(asunto__startswith= input)
+            if request.session["email-filtro"]!= "limpio":
+                contactos= contactos.filter(email_emisor__startswith= request.session["email-filtro"])
+            if request.session["fecha-filtro"]!= "limpio":
+                contactos= contactos.filter(fecha_emision__contains= request.session["fecha-filtro"])
             pagina = Paginator(contactos, 5)
             lista_pagina = request.GET.get('pagina')
             pagina = pagina.get_page(lista_pagina)
@@ -159,36 +162,24 @@ def crud_contact(request):
                      "pagina": pagina}
             return render(request, "tienda/crud_contact.html", context)
         elif 'boton-no' in request.POST:
+            contactos= Contact.objects.filter(resuelta= False).order_by('id')
             if request.session["asunto-filtro"]!= "limpio":
                 input= request.session["asunto-filtro"]
-                contactos= Contact.objects.filter(asunto__startswith= input).filter(resuelta= False).order_by('id')
-            else:
-                contactos= Contact.objects.filter(resuelta= False).order_by('id')
+                contactos= contactos.filter(asunto__startswith= input)
+            if request.session["email-filtro"]!= "limpio":
+                contactos= contactos.filter(email_emisor__startswith= request.session["email-filtro"])
+            if request.session["fecha-filtro"]!= "limpio":
+                contactos= contactos.filter(fecha_emision__contains= request.session["fecha-filtro"])
             pagina = Paginator(contactos, 5)
             lista_pagina = request.GET.get('pagina')
             pagina = pagina.get_page(lista_pagina)
-            request.session["resuelta-filtro"]= False
+            request.session["resuelta-filtro"]= True 
             context={"contact": contactos,
-                     "pagina": pagina,
-                     }
+                     "pagina": pagina}
             return render(request, "tienda/crud_contact.html", context)
         elif 'search-asunto' in request.POST:
             input= request.POST["input-asunto"]
             request.session["asunto-filtro"]= input
-            if request.session["resuelta-filtro"]!= "limpio":
-                contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input)
-            else:
-                contactos= Contact.objects.filter(asunto__startswith= input)
-            pagina = Paginator(contactos, 5)
-            lista_pagina = request.GET.get('pagina')
-            pagina = pagina.get_page(lista_pagina)
-            context={"contact": contactos,
-                     "pagina": pagina}
-            return render(request, "tienda/crud_contact.html", context)
-        
-        elif 'search-email' in request.POST:
-            input= request.POST["input-email"]
-            request.session["email-filtro"]= input
             if request.session["id-filtro"]!= "limpio":
                 contactos= Contact.objects.filter(id= request.session["id-filtro"])
                 pagina = Paginator(contactos, 5)
@@ -197,44 +188,74 @@ def crud_contact(request):
                 context={"pagina": pagina,
                         "contact": contactos}
                 return render(request, "tienda/crud_contact.html", context)
-            elif request.session["asunto-filtro"]!= "limpio":
+            contactos= Contact.objects.filter(asunto__startswith= input)
+            if request.session["resuelta-filtro"]!= "limpio":
+                contactos= contactos.filter(resuelta= request.session["resuelta-filtro"])
+            if request.session["email-filtro"]!= "limpio":
+                contactos= contactos.filter(email_emisor__startswith= request.session["email-filtro"])
+            if request.session["fecha-filtro"]!= "limpio":
+                contactos= contactos.filter(fecha_emision__contains= request.session["fecha-filtro"])
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"contact": contactos,
+                     "pagina": pagina}
+            return render(request, "tienda/crud_contact.html", context)
+        
+        elif 'search-email' in request.POST:
+            if request.session["id-filtro"]!= "limpio":
+                contactos= Contact.objects.filter(id= request.session["id-filtro"])
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+            input= request.POST["input-email"]
+            request.session["email-filtro"]= input
+            contactos= Contact.objects.filter(email_emisor__startswith= input)
+            if request.session["asunto-filtro"]!= "limpio":
                 input_asunto= request.session["asunto-filtro"]
-                if request.session["resuelta-filtro"]!= "limpio":
-                    contactos= Contact.objects.filter(email_emisor__startswith= input).filter(
-                        resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input_asunto)
-                else:
-                    contactos= Contact.objects.filter(asunto__startswith= input).filter(email_emisor__startswith= input) 
-                pagina = Paginator(contactos, 5)
-                lista_pagina = request.GET.get('pagina')
-                pagina = pagina.get_page(lista_pagina)
-                context={"pagina": pagina,
-                        "contact": contactos}
-                return render(request, "tienda/crud_contact.html", context)
-            elif request.session["resuelta-filtro"]!= "limpio":
-                if request.session["asunto-filtro"]!= "limpio":
-                    input_asunto= request.session["asunto-filtro"]
-                    contactos= Contact.objects.filter(email_emisor__startswith= input).filter(
-                        resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input_asunto)
-                else:
-                    contactos= Contact.objects.filter(email_emisor__startswith= input).filter(resuelta= request.session["resuelta-filtro"])
-                pagina = Paginator(contactos, 5)
-                lista_pagina = request.GET.get('pagina')
-                pagina = pagina.get_page(lista_pagina)
-                context={"pagina": pagina,
-                        "contact": contactos}
-                return render(request, "tienda/crud_contact.html", context)
-            else:
-                contactos= Contact.objects.filter(email_emisor__startswith= input)
-                pagina = Paginator(contactos, 5)
-                lista_pagina = request.GET.get('pagina')
-                pagina = pagina.get_page(lista_pagina)
-                context={"pagina": pagina,
-                        "contact": contactos}
-                return render(request, "tienda/crud_contact.html", context)
+                contactos= contactos.filter(asunto__startswith= input_asunto)
+            if request.session["resuelta-filtro"]!= "limpio":
+                contactos= contactos.filter(resuelta= request.session["resuelta-filtro"]) 
+            if request.session["fecha-filtro"]!= "limpio":
+                contactos= contactos.filter(fecha_emision__contains= request.session["fecha-filtro"])
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+                    "contact": contactos}
+            return render(request, "tienda/crud_contact.html", context)
         elif 'search-id' in request.POST:
             input= request.POST["input-id"]
             request.session["id-filtro"]= input
             contactos= Contact.objects.filter(id= input)
+            pagina = Paginator(contactos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"contact": contactos,
+                     "pagina": pagina}
+            return render(request, "tienda/crud_contact.html", context)
+        elif 'search-fecha' in request.POST:
+            if request.session["id-filtro"]!= "limpio":
+                contactos= Contact.objects.filter(id= request.session["id-filtro"])
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+            fecha= request.POST["input-fecha"]
+            request.session["fecha-filtro"]= fecha
+            contactos= Contact.objects.filter(fecha_emision__contains= fecha)
+            if request.session["asunto-filtro"]!= "limpio":
+                input_asunto= request.session["asunto-filtro"]
+                contactos= contactos.filter(asunto__startswith= input_asunto)
+            if request.session["resuelta-filtro"]!= "limpio":
+                contactos= contactos.filter(resuelta= request.session["resuelta-filtro"]) 
+            if request.session["email-filtro"]!= "limpio":
+                contactos= contactos.filter(email_emisor__startswith= request.session["email-filtro"])
             pagina = Paginator(contactos, 5)
             lista_pagina = request.GET.get('pagina')
             pagina = pagina.get_page(lista_pagina)
@@ -251,6 +272,7 @@ def crud_contact(request):
             request.session["resuelta-filtro"]= "limpio"
             request.session["email-filtro"]= "limpio" 
             request.session["id-filtro"]= "limpio"
+            request.session["fecha-filtro"]= "limpio"
             contactos= Contact.objects.get_queryset().order_by('id')
             pagina = Paginator(contactos, 5)
             lista_pagina = request.GET.get('pagina')
@@ -262,45 +284,65 @@ def crud_contact(request):
         try:
             if request.session["asunto-filtro"]!= "limpio":
                 input= request.session["asunto-filtro"]
+                contactos= Contact.objects.filter(asunto__startswith= input) 
                 if request.session["resuelta-filtro"]!= "limpio":
-                    contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input)
-                    pagina = Paginator(contactos, 5)
-                    lista_pagina = request.GET.get('pagina')
-                    pagina = pagina.get_page(lista_pagina)
-                    context={"pagina": pagina,
-                    "contact": contactos}
-                    return render(request, "tienda/crud_contact.html", context)
-                elif request.session["resuelta-filtro"]!= "limpio":
-                    if request.session["asunto-filtro"]!= "limpio":
-                        contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(
-                            email_emisor__startswith= input).filter(asunto__startswith= request.session["asunto-filtro"])
-                    else:
-                        contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(email_emisor__startswith= input)
-                    pagina = Paginator(contactos, 5)
-                    lista_pagina = request.GET.get('pagina')
-                    pagina = pagina.get_page(lista_pagina)
-                    context={"pagina": pagina,
-                            "contact": contactos}
-                    return render(request, "tienda/crud_contact.html", context)
-                elif request.session["asunto-filtro"]!= "limpio":
-                    input= request.session["asunto-filtro"]
-                    if request.session["resuelta-filtro"]!= "limpio":
-                        contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"]).filter(asunto__startswith= input)
-                    else:
-                        contactos= Contact.objects.filter(asunto__startswith= input) 
-                    pagina = Paginator(contactos, 5)
-                    lista_pagina = request.GET.get('pagina')
-                    pagina = pagina.get_page(lista_pagina)
-                    context={"pagina": pagina,
-                            "contact": contactos}
-                    return render(request, "tienda/crud_contact.html", context)
-            elif request.session["resuelta-filtro"]!= "limpio":
-                contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"])
+                    contactos= contactos.filter(resuelta= request.session["resuelta-filtro"])
+                if request.session["email-filtro"]!= "limpio":
+                    contactos= contactos.filter(email_emisor__startswith= request.session["email-filtro"]) 
+                if request.session["fecha-filtro"]!= "limpio":
+                    contactos= contactos.filter(fecha_emision__contains= request.session["fecha-filtro"])
                 pagina = Paginator(contactos, 5)
                 lista_pagina = request.GET.get('pagina')
                 pagina = pagina.get_page(lista_pagina)
                 context={"pagina": pagina,
                         "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+            elif request.session["resuelta-filtro"]!= "limpio":
+                contactos= Contact.objects.filter(resuelta= request.session["resuelta-filtro"])
+                if request.session["email-filtro"]!= "limpio":
+                    contactos= contactos.filter(email_emisor__startswith= request.session["email-filtro"]) 
+                if request.session["fecha-filtro"]!= "limpio":
+                    contactos= contactos.filter(fecha_emision__contains= request.session["fecha-filtro"])
+                if request.session["asunto-filtro"]!= "limpio":
+                    input_asunto= request.session["asunto-filtro"]
+                    contactos= contactos.filter(asunto__startswith= input_asunto)
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "contact": contactos}
+                context={}
+                return render(request, "tienda/crud_contact.html", context)
+            elif request.session["email-filtro"]!= "limpio":
+                input= request.session["email-filtro"]
+                contactos= Contact.objects.filter(email_emisor__startswith= input)
+                if request.session["resuelta-filtro"]!= "limpio":
+                    contactos= contactos.filter(resuelta= request.session["resuelta-filtro"])
+                if request.session["fecha-filtro"]!= "limpio":
+                    contactos= contactos.filter(fecha_emision__contains= request.session["fecha-filtro"])
+                if request.session["asunto-filtro"]!= "limpio":
+                    input_asunto= request.session["asunto-filtro"]
+                    contactos= contactos.filter(asunto__startswith= input_asunto)
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                         "contact": contactos}
+                return render(request, "tienda/crud_contact.html", context)
+            elif request.session["fecha-filtro"]!= "limpio":
+                fecha= request.session["fecha-filtro"]
+                contactos= Contact.objects.filter(fecha_emision__contains= fecha)
+                if request.session["resuelta-filtro"]!= "limpio":
+                    contactos= contactos.filter(resuelta= request.session["resuelta-filtro"])
+                if request.session["email-filtro"]!= "limpio":
+                    contactos= contactos.filter(email_emisor__startswith= request.session["email-filtro"]) 
+                if request.session["asunto-filtro"]!= "limpio":
+                    contactos= contactos.filter(asunto__startswith= request.session["asunto-filtro"])
+                pagina = Paginator(contactos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                         "contact": contactos}
                 return render(request, "tienda/crud_contact.html", context)
             else:
                 contactos= Contact.objects.get_queryset().order_by('id')
@@ -349,25 +391,241 @@ def contact_details(request ):
 
 def crud_pedido(request):
     if request.method== "POST":
-        id_p= request.POST.get("id_boton")
-        pedido= Pedido.objects.get(id= id_p)
-        cliente= pedido.f_cliente
-        context={
-            "pedido": pedido,
-            "cliente": cliente
-        }
-        return render(request, "tienda/pedido_det.html", context)
+        if 'id_boton' in request.POST:
+            id_p= request.POST.get("id_boton")
+            request.session["id"]= id_p
+            return redirect('pedido_details')
+        elif 'search-cliente' in request.POST:
+            if request.session["id-filtro"]!= "limpio":
+                pedidos= Pedido.objects.filter(id= request.session["id-filtro"])
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "pedidos": pedidos}
+                return render(request, "tienda/crud_boleta.html", context)
+            input_cli= request.POST["cliente-id"]
+            request.session["cliente-filtro"]= input_cli
+            cli= Cliente.objects.filter(name__startswith= input_cli)
+            pedidos= Pedido.objects.filter(f_cliente= cli)
+            if request.session["min-monto-filtro"]!= "limpio" & request.session["max-monto-filtro"]:
+                min_val= request.session["min-monto-filtro"]
+                max_val= request.session["max-monto-filtro"]
+                pedidos= pedidos.filter(total_precio__range=(min_val, max_val)) 
+            if request.session["productos-filtro"]!= "limpio":
+                pedidos= pedidos.filter(nro_productos= request.session["productos-filtro"])
+            if request.session["fecha-filtro"]!= "limpio":
+                pedidos= pedidos.filter(fecha_compra__contains= request.session["fecha-filtro"])
+            pagina = Paginator(pedidos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+            "pedidos": pedidos,
+            }
+            return render(request, "tienda/crud_boleta.html", context)
+        elif 'search-id' in request.POST:
+            input_id= request.POST["pedido-id"]
+            request.session["id-filtro"]= input_id
+            pedidos= Pedido.objects.filter(id= int(input_id))
+            pagina = Paginator(pedidos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+            "pedidos": pedidos,
+            }
+            return render(request, "tienda/crud_boleta.html", context)
+        elif 'search-productos' in request.POST:
+            if request.session["id-filtro"]!= "limpio":
+                pedidos= Pedido.objects.filter(id= request.session["id-filtro"])
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "pedidos": pedidos}
+                return render(request, "tienda/crud_boleta.html", context)
+            input_prod= request.POST["productos-id"]
+            request.session["productos-filtro"]= input_prod
+            pedidos= Pedido.objects.filter(nro_productos= input_prod)
+            if request.session["min-monto-filtro"]!= "limpio":
+                min_val= request.session["min-monto-filtro"]
+                max_val= request.session["max-monto-filtro"]
+                pedidos= pedidos.filter(total_precio__range=(min_val, max_val)) 
+            if request.session["cliente-filtro"]!= "limpio":
+                cli= Cliente.objects.filter(name__startswith= input_cli)
+                pedidos= pedidos.filter(f_cliente= cli)
+            if request.session["fecha-filtro"]!= "limpio":
+                pedidos= pedidos.filter(fecha_compra__contains= request.session["fecha-filtro"])
+            pagina = Paginator(pedidos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+            "pedidos": pedidos,
+            }
+            return render(request, "tienda/crud_boleta.html", context)
+        elif 'search-monto' in request.POST:
+            if request.session["id-filtro"]!= "limpio":
+                pedidos= Pedido.objects.filter(id= request.session["id-filtro"])
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "pedidos": pedidos}
+                return render(request, "tienda/crud_boleta.html", context)
+            min_val= request.POST["min-val"]
+            max_val= request.POST["max-val"]
+            request.session["min-monto-filtro"]= min_val
+            request.session["max-monto-filtro"]= max_val
+            pedidos= Pedido.objects.filter(total_precio__range=(min_val, max_val))
+            if request.session["cliente-filtro"]!= "limpio":
+                cli= Cliente.objects.filter(name__startswith= input_cli)
+                pedidos= pedidos.filter(f_cliente= cli)
+            if request.session["productos-filtro"]!= "limpio":
+                pedidos= pedidos.filter(nro_productos= request.session["productos-filtro"])
+            if request.session["fecha-filtro"]!= "limpio":
+                pedidos= pedidos.filter(fecha_compra__contains= request.session["fecha-filtro"])
+            pagina = Paginator(pedidos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+            "pedidos": pedidos,
+            }
+            return render(request, "tienda/crud_boleta.html", context)
+        elif 'search-fecha' in request.POST:
+            if request.session["id-filtro"]!= "limpio":
+                pedidos= Pedido.objects.filter(id= request.session["id-filtro"])
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "pedidos": pedidos}
+                return render(request, "tienda/crud_boleta.html", context)
+            fecha= request.POST["fecha-id"]
+            request.session["fecha-filtro"]= fecha
+            pedidos= Pedido.objects.filter(fecha_compra__contains= fecha) 
+            if request.session["cliente-filtro"]!= "limpio":
+                cli= Cliente.objects.filter(name__startswith= input_cli)
+                pedidos= pedidos.filter(f_cliente= cli)
+            if request.session["productos-filtro"]!= "limpio":
+                pedidos= pedidos.filter(nro_productos= request.session["productos-filtro"])
+            if request.session["min-monto-filtro"]!= "limpio":
+                min_val= request.session["min-monto-filtro"]
+                max_val= request.session["max-monto-filtro"]
+                pedidos= pedidos.filter(total_precio__range=(min_val, max_val)) 
+            pagina = Paginator(pedidos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+            "pedidos": pedidos,
+            }
+            return render(request, "tienda/crud_boleta.html", context)
+
     else:
-        pedidos= Pedido.objects.all()
-        pagina = Paginator(pedidos, 5)
-        lista_pagina = request.GET.get('pagina')
-        pagina = pagina.get_page(lista_pagina)
-        context={"pedidos": pedidos,
-                 "pagina": pagina}
-        return render(request, "tienda/crud_boleta.html", context)
+        if 'limpiar-filtros' in request.GET:
+            request.session["monto-filtro"]= "limpio"
+            request.session["cliente-filtro"]= "limpio"
+            request.session["id-filtro"]= "limpio" 
+            request.session["productos-filtro"]= "limpio"
+            request.session["min-monto-filtro"]= "limpio"
+            request.session["max-monto-filtro"]= "limpio"
+            request.session["fecha-filtro"]= "limpio"
+            pedidos= Pedido.objects.get_queryset().order_by('id')
+            pagina = Paginator(pedidos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pagina": pagina,
+            "pedidos": pedidos,
+            }
+            return render(request, "tienda/crud_boleta.html", context)
+        try:
+            if request.session["monto-filtro"]!= "limpio":
+                if request.session["id-filtro"]!= "limpio":
+                    pedidos= Pedido.objects.filter(id= request.session["id-filtro"])
+                    pagina = Paginator(pedidos, 5)
+                    lista_pagina = request.GET.get('pagina')
+                    pagina = pagina.get_page(lista_pagina)
+                    context={"pagina": pagina,
+                            "pedidos": pedidos}
+                    return render(request, "tienda/crud_boleta.html", context)
+                min_val= request.session["min-monto-filtro"]
+                max_val= request.session["max-monto-filtro"]
+                pedidos= Pedido.objects.filter(total_precio__range=(min_val, max_val)) 
+                if request.session["cliente-filtro"]!= "limpio":
+                    cli= Cliente.objects.filter(name__startswith= input_cli)
+                    pedidos= pedidos.filter(f_cliente= cli)
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "pedidos": pedidos}
+                return render(request, "tienda/crud_boleta.html", context)
+            elif request.session["cliente-filtro"]!= "limpio":
+                if request.session["id-filtro"]!= "limpio":
+                    pedidos= Pedido.objects.filter(id= request.session["id-filtro"])
+                    pagina = Paginator(pedidos, 5)
+                    lista_pagina = request.GET.get('pagina')
+                    pagina = pagina.get_page(lista_pagina)
+                    context={"pagina": pagina,
+                            "pedidos": pedidos}
+                    return render(request, "tienda/crud_boleta.html", context)
+                cliente= Cliente.objects.filter(nombre= request.session["cliente-filtro"])
+                pedidos= Pedido.objects.filter(f_cliente= cliente)
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                        "pedidos": pedidos}
+                return render(request, "tienda/crud_boleta.html", context)
+            elif request.session["productos-filtro"]!= "limpio":
+                if request.session["id-filtro"]!= "limpio":
+                    pedidos= Pedido.objects.filter(id= request.session["id-filtro"])
+                    pagina = Paginator(pedidos, 5)
+                    lista_pagina = request.GET.get('pagina')
+                    pagina = pagina.get_page(lista_pagina)
+                    context={"pagina": pagina,
+                            "pedidos": pedidos}
+                    return render(request, "tienda/crud_boleta.html", context)
+                pedidos= Pedido.objects.filter(nro_productos= request.session["productos-filtro"])
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                         "pedidos": pedidos}
+                return render(request, "tienda/crud_boleta.html", context)
+            elif request.session["fecha-filtro"]!= "limpio":
+                fecha= request.session["fecha-filtro"]
+                pedidos= Pedido.objects.filter(fecha_compra__contains= fecha) 
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                "pedidos": pedidos,
+                }
+                return render(request, "tienda/crud_boleta.html", context)
+            else:
+                pedidos= Pedido.objects.get_queryset().order_by('id')
+                pagina = Paginator(pedidos, 5)
+                lista_pagina = request.GET.get('pagina')
+                pagina = pagina.get_page(lista_pagina)
+                context={"pagina": pagina,
+                "pedidos": pedidos,
+                }
+                return render(request, "tienda/crud_boleta.html", context)
+        except:
+            pedidos= Pedido.objects.get_queryset().order_by('id')
+            pagina = Paginator(pedidos, 5)
+            lista_pagina = request.GET.get('pagina')
+            pagina = pagina.get_page(lista_pagina)
+            context={"pedidos": pedidos,
+                    "pagina": pagina}
+            return render(request, "tienda/crud_boleta.html", context)
 
 def pedido_details(request):
-    return render(request, "tienda/pedido_det.html", {})
+    pedido_id= request.session["id"]
+    pedido= Pedido.objects.get(id= pedido_id)
+    cliente= pedido.f_cliente
+    context={"pedido": pedido,
+             "cliente": cliente}
+    return render(request, "tienda/pedido_det.html", context)
 
 def change_pass(request):
     if request.method== "POST":

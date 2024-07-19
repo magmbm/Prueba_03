@@ -186,3 +186,9 @@ a:hover{
     background-position-x: 95%;
     background-position-y: center;
 }
+
+
+.equis-carro{
+  border: none;
+  background-color: #FFF;
+}

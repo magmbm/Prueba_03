@@ -45,6 +45,12 @@
                             <button type="submit" name="plus-btn" class="cant-btn-carro" value={{reg.f_game.id}} >+</button>
                         </form>
                         <div class="col"> ${{reg.precio_total}} </div>
+                        <div>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button name="equis-carro" value="{{reg.f_game.id}}" class="equis-carro" type="submit">X</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             {% endfor %}

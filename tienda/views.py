@@ -82,6 +82,19 @@ def cart(request):
                 pedido.total_precio= pedido.total_precio - game.precio
                 pedido.save()
                 record.save()
+        if 'equis-carro' in request.POST:
+            user= request.user
+            cli= user.cliente
+            game_id= request.POST["equis-carro"]
+            game= Game.objects.get(id= game_id)
+            pedido= Pedido.objects.get(f_cliente= cli, current= True)
+            record= Record.objects.get(pedido_FK= pedido, f_game= game)
+            record_cant_prod= record.cant
+            record_precio= record.precio_total
+            record.delete()
+            pedido.nro_productos= pedido.nro_productos - record_cant_prod
+            pedido.total_precio= pedido.total_precio - record_precio
+            pedido.save()
         return redirect('cart')
     else:
         user = User.objects.get(username=request.user)
